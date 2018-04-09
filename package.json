@@ -1,0 +1,53 @@
+{
+  "name": "react-ts-jest-parcel-template",
+  "version": "0.1.0",
+  "author": "Andreas Blunk",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "@types/node": "^9.6.1",
+    "@types/react": "^16.1.0",
+    "@types/react-dom": "^16.0.4",
+    "autoprefixer": "^8.2.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^22.4.3",
+    "parcel-bundler": "^1.7.0",
+    "postcss-modules": "^1.1.0",
+    "ts-jest": "^22.4.2",
+    "tslint": "^5.9.1",
+    "tslint-config-standard": "^7.0.0",
+    "typescript": "^2.8.1"
+  },
+  "dependencies": {
+    "dagre": "^0.8.2",
+    "react": "^16.3.0",
+    "react-dom": "^16.3.0",
+    "styled-components": "3.2.5"
+  },
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html",
+    "test": "jest --env=jsdom"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "moduleNameMapper": {
+      "\\.(css)$": "identity-obj-proxy",
+      "\\.(svg)$": "<rootDir>/test/empty-module.js"
+    }
+  }
+}

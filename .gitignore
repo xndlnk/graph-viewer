@@ -1,0 +1,11 @@
+.DS_Store
+node_modules
+**/output
+**/temp
+.env
+build
+dist
+temp
+*error.log
+*debug.log
+.cache
