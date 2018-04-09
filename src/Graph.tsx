@@ -70,9 +70,9 @@ class Graph extends React.Component<GraphProps, any> {
   }
 
   render() {
-    let polyLinePoints = this.props.edges.map(edge =>
-      edge.points.map(point => point.x + ',' + point.y).join(' ')
-    )
+    let polyLinePoints = this.props.edges.map(edge => {
+      return edge.points.map(point => point.x + ',' + point.y).join(' ')
+    })
 
     return (
       <div
@@ -84,6 +84,7 @@ class Graph extends React.Component<GraphProps, any> {
       >
         {this.props.nodes.map(node => (
           <div
+            key={node.id}
             style={{
               position: 'absolute',
               left: node.x - node.width / 2,
@@ -102,9 +103,10 @@ class Graph extends React.Component<GraphProps, any> {
           </div>
         ))}
         <svg width={this.props.width} height={this.props.height}>
-          {polyLinePoints.map(line => (
+          {polyLinePoints.map(points => (
             <polyline
-              points={line}
+              key={points}
+              points={points}
               style={{
                 fill: 'none',
                 stroke: 'black',
