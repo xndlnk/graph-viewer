@@ -76,8 +76,8 @@ class Graph extends React.Component<GraphProps, any> {
 
     return (
       <div
-        //width={this.props.width}
-        //height={height}
+        // width={this.props.width}
+        // height={height}
         style={{
           position: 'relative'
         }}
