@@ -60,8 +60,8 @@ console.log(g.edges().map(id => g.edge(id)))
 interface GraphProps {
   width: number
   height: number
-  nodes: any
-  edges: any
+  nodes: dagre.Node[]
+  edges: dagre.GraphEdge[]
 }
 
 class Graph extends React.Component<GraphProps, any> {
