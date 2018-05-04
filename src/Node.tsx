@@ -12,9 +12,7 @@ export interface NodeProps extends RouteComponentProps<any> {
   color: string
 }
 
-export const Node = (props: NodeProps) => {
-  console.log(props.match)
-
+export const Node = withRouter((props: NodeProps) => {
   return (
     <div
         key={props.id}
@@ -35,6 +33,4 @@ export const Node = (props: NodeProps) => {
       <Link to={`${props.match.url}/focus/${props.id}`}>{props.id}</Link>
     </div>
   )
-}
-
-export const NodeWithRouter = withRouter(Node)
+})

@@ -20,7 +20,7 @@ const App = () => {
 
         <Route exact path="/graph/simple" component={SimpleGraph} />
         <Route path="/graph/simple/focus/:nodeId" render={
-          (props) => <FocusedNode {...props} graph={simpleGraph} focusedNodeId={props.match.params.nodeId} />
+          (props) => <FocusedNode graph={simpleGraph} focusedNodeId={props.match.params.nodeId} />
         } />
       </div>
     </Router>
