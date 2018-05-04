@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { render } from 'react-dom'
+import { Route, Link } from 'react-router-dom'
 
 export interface NodeProps {
   id: string
@@ -28,7 +29,7 @@ export const Node = (props: NodeProps) => {
           fontFamily: 'Roboto, sans-serif'
         }}
     >
-      {props.id}
+      <Link to={'/focus/' + props.id}>{props.id}</Link>
     </div>
   )
 }

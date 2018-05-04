@@ -23,7 +23,9 @@ class App extends React.Component<any, any> {
           <hr />
 
           <Route path="/simplegraph" component={SimpleGraph} />
-          <Route path="/a" render={() => <FocusedNode graph={simpleGraph} focusedNodeId="a" />} />
+          <Route path="/focus/:nodeId" render={
+            ({ match }) => <FocusedNode graph={simpleGraph} focusedNodeId={match.params.nodeId} />
+          } />
         </div>
       </Router>
     )

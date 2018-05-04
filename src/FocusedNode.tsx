@@ -21,7 +21,7 @@ export const FocusedNode = (props: FocusedNodeProps) => {
   nodes.push(focusedNode)
 
   let neighboursEdges: model.Edge[] = simpleGraph.edges
-    .filter((edge) => sourceNodeIds.includes(edge.sourceNode) || targetNodeIds.includes(edge.targetNode))
+    .filter((edge) => edge.sourceNode === props.focusedNodeId || edge.targetNode === props.focusedNodeId)
 
   let focusedGraph: model.Node = {
     id: 'focused_' + props.focusedNodeId,
