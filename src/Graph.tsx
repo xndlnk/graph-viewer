@@ -2,12 +2,10 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import * as dagre from 'dagre'
 import { Node } from './Node'
+import * as model from './model'
 
 export interface GraphProps {
-  width: number
-  height: number
-  nodes: dagre.Node[]
-  edges: dagre.GraphEdge[]
+  graph: model.Node
 }
 
 export class Graph extends React.Component<GraphProps, any> {
@@ -16,7 +14,16 @@ export class Graph extends React.Component<GraphProps, any> {
   }
 
   render() {
-    let polyLinePoints = this.props.edges.map(edge => {
+    let dagreGraph = convertGraphToDagreGraph(this.props.graph)
+    dagre.layout(dagreGraph)
+
+    let width = dagreGraph.graph().width
+    let height = dagreGraph.graph().height
+
+    let nodes = dagreGraph.nodes().map(id => dagreGraph.node(id))
+    let edges = dagreGraph.edges().map(id => dagreGraph.edge(id))
+
+    let polyLinePoints = edges.map(edge => {
       return edge.points.map(point => point.x + ',' + point.y).join(' ')
     })
 
@@ -28,7 +35,7 @@ export class Graph extends React.Component<GraphProps, any> {
           position: 'relative'
         }}
       >
-        {this.props.nodes.map(node => (
+        {nodes.map(node => (
           <Node
             id={node.id}
             x={node.x}
@@ -38,7 +45,7 @@ export class Graph extends React.Component<GraphProps, any> {
             color={node.color}
           />
         ))}
-        <svg width={this.props.width} height={this.props.height}>
+        <svg width={width} height={height}>
           {polyLinePoints.map(points => (
             <polyline
               key={points}
@@ -54,4 +61,40 @@ export class Graph extends React.Component<GraphProps, any> {
       </div>
     )
   }
+}
+
+function convertGraphToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
+  const dagreGraph = new dagre.graphlib.Graph({ compound: true })
+
+  dagreGraph.setGraph({})
+  dagreGraph.setDefaultEdgeLabel(() => ({}))
+
+  graph.nodes.forEach(node => {
+    dagreGraph.setNode(node.id, {
+      width: 100,
+      height: 40,
+      color: 'lightgrey',
+      ...node
+    })
+  })
+  graph.edges.forEach(edge => {
+    dagreGraph.setEdge(edge.sourceNode, edge.targetNode)
+  })
+
+  dagreGraph.setNode('group', {
+    id: 'group',
+    width: 150,
+    height: 50,
+    color: 'rgba(255, 0, 0, 0.5)'
+  })
+
+  dagreGraph.setParent('c', 'group')
+  dagreGraph.setParent('e', 'group')
+
+  dagreGraph.graph().nodesep = 30
+  dagreGraph.graph().edgesep = 15
+  dagreGraph.graph().ranksep = 90
+  dagreGraph.graph().ranker = 'tight-tree'
+
+  return dagreGraph
 }
