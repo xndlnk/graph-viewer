@@ -89,7 +89,7 @@ function convertGraphToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
       id: 'group',
       width: 150,
       height: 50,
-      color: 'rgba(255, 0, 0, 0.5)'
+      color: 'rgba(255, 0, 0, 0.2)'
     })
 
     dagreGraph.setParent('c', 'group')
