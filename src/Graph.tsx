@@ -23,6 +23,8 @@ export class Graph extends React.Component<GraphProps, any> {
     let nodes = dagreGraph.nodes().map(id => dagreGraph.node(id))
     let edges = dagreGraph.edges().map(id => dagreGraph.edge(id))
 
+    console.log(JSON.stringify(nodes, null, 2))
+
     let polyLinePoints = edges.map(edge => {
       return edge.points.map(point => point.x + ',' + point.y).join(' ')
     })
@@ -81,15 +83,17 @@ function convertGraphToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
     dagreGraph.setEdge(edge.sourceNode, edge.targetNode)
   })
 
-  dagreGraph.setNode('group', {
-    id: 'group',
-    width: 150,
-    height: 50,
-    color: 'rgba(255, 0, 0, 0.5)'
-  })
+  if (graph.nodes.find((node) => node.id === 'c') && graph.nodes.find((node) => node.id === 'e')) {
+    dagreGraph.setNode('group', {
+      id: 'group',
+      width: 150,
+      height: 50,
+      color: 'rgba(255, 0, 0, 0.5)'
+    })
 
-  dagreGraph.setParent('c', 'group')
-  dagreGraph.setParent('e', 'group')
+    dagreGraph.setParent('c', 'group')
+    dagreGraph.setParent('e', 'group')
+  }
 
   dagreGraph.graph().nodesep = 30
   dagreGraph.graph().edgesep = 15
