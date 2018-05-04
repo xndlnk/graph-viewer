@@ -7,29 +7,24 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import { simpleGraph } from './example-graphs/simpleGraph'
 
-class App extends React.Component<any, any> {
-  render() {
-    return (
-      <Router>
-        <div>
-          <ul>
-            <li>
-              <Link to="/simplegraph">Simple Graph</Link>
-            </li>
-            <li>
-              <Link to="/a">Focus Node a</Link>
-            </li>
-          </ul>
-          <hr />
+const App = () => {
+  return (
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/graph/simple">Simple Graph</Link>
+          </li>
+        </ul>
+        <hr />
 
-          <Route path="/simplegraph" component={SimpleGraph} />
-          <Route path="/focus/:nodeId" render={
-            ({ match }) => <FocusedNode graph={simpleGraph} focusedNodeId={match.params.nodeId} />
-          } />
-        </div>
-      </Router>
-    )
-  }
+        <Route exact path="/graph/simple" component={SimpleGraph} />
+        <Route path="/graph/simple/focus/:nodeId" render={
+          (props) => <FocusedNode {...props} graph={simpleGraph} focusedNodeId={props.match.params.nodeId} />
+        } />
+      </div>
+    </Router>
+  )
 }
 
 const container = document.getElementById('root')

@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { render } from 'react-dom'
 import * as dagre from 'dagre'
-import { Node } from './Node'
+import { Node, NodeWithRouter } from './Node'
 import * as model from './model'
+import { withRouter } from 'react-router'
 
 export interface GraphProps {
   graph: model.Node
@@ -38,7 +39,7 @@ export class Graph extends React.Component<GraphProps, any> {
         }}
       >
         {nodes.map(node => (
-          <Node
+          <NodeWithRouter
             id={node.id}
             x={node.x}
             y={node.y}

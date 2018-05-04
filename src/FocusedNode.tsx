@@ -2,8 +2,11 @@ import * as React from 'react'
 import { Graph } from './Graph'
 import { simpleGraph } from './example-graphs/simpleGraph'
 import * as model from './model'
+import { Route, Link, match, RouteComponentProps } from 'react-router-dom'
 
 export const FocusedNode = (props: FocusedNodeProps) => {
+  console.log(props.match)
+
   // TODO: auto-resolve id-based references in model
   let sourceNodeIds: string[] = simpleGraph.edges
     .filter((edge) => edge.targetNode === props.focusedNodeId)
@@ -36,7 +39,7 @@ export const FocusedNode = (props: FocusedNodeProps) => {
   )
 }
 
-export interface FocusedNodeProps {
+export interface FocusedNodeProps extends RouteComponentProps<any> {
   graph: model.Node
   focusedNodeId: string
 }

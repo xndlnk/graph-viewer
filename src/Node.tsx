@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { render } from 'react-dom'
-import { Route, Link } from 'react-router-dom'
+import { Route, Link, match, RouteComponentProps } from 'react-router-dom'
+import { withRouter } from 'react-router'
 
-export interface NodeProps {
+export interface NodeProps extends RouteComponentProps<any> {
   id: string
   x: number
   y: number
@@ -12,6 +13,8 @@ export interface NodeProps {
 }
 
 export const Node = (props: NodeProps) => {
+  console.log(props.match)
+
   return (
     <div
         key={props.id}
@@ -29,7 +32,9 @@ export const Node = (props: NodeProps) => {
           fontFamily: 'Roboto, sans-serif'
         }}
     >
-      <Link to={'/focus/' + props.id}>{props.id}</Link>
+      <Link to={`${props.match.url}/focus/${props.id}`}>{props.id}</Link>
     </div>
   )
 }
+
+export const NodeWithRouter = withRouter(Node)
