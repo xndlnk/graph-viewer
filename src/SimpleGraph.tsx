@@ -3,37 +3,23 @@ import { render } from 'react-dom'
 import * as dagre from 'dagre'
 import { Graph } from './Graph'
 
-const data = {
-  nodes: [
-    { id: 'a', color: 'red' },
-    { id: 'b', color: 'blue' },
-    { id: 'c', color: 'green' },
-    { id: 'd', color: 'yellow' },
-    { id: 'e', color: '#AEF023' }
-  ],
-  connections: [
-    ['a', 'c'],
-    ['a', 'e'],
-    ['e', 'c'],
-    ['a', 'd'],
-    ['c', 'b'],
-    ['d', 'b']
-  ]
-}
+import { simpleGraph } from './example-graphs/simpleGraph'
+
 const g = new dagre.graphlib.Graph({ compound: true })
 
 g.setGraph({})
 g.setDefaultEdgeLabel(() => ({}))
 
-data.nodes.forEach(node => {
+simpleGraph.nodes.forEach(node => {
   g.setNode(node.id, {
     width: 100,
     height: 40,
+    color: 'lightgrey',
     ...node
   })
 })
-data.connections.forEach(connection => {
-  g.setEdge(connection[0], connection[1])
+simpleGraph.edges.forEach(edge => {
+  g.setEdge(edge.sourceNode, edge.targetNode)
 })
 
 g.setNode('group', {

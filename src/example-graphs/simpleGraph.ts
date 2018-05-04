@@ -1,19 +1,35 @@
-const simpleGraph = {
+import { Node, Edge } from '../model'
+
+export const simpleGraph: Node = {
+  id: 'simple',
+  label: 'simple graph',
   nodes: [
-    { id: 'a', color: 'red' },
-    { id: 'b', color: 'blue' },
-    { id: 'c', color: 'green' },
-    { id: 'd', color: 'yellow' },
-    { id: 'e', color: '#AEF023' }
+    { id: 'a' },
+    { id: 'b' },
+    { id: 'c' },
+    { id: 'd' },
+    { id: 'e' }
   ],
-  connections: [
-    ['a', 'c'],
-    ['a', 'e'],
-    ['e', 'c'],
-    ['a', 'd'],
-    ['c', 'b'],
-    ['d', 'b']
+  edges: [
+    {
+      sourceNode: 'a',
+      targetNode: 'e'
+    },
+    {
+      sourceNode: 'e',
+      targetNode: 'c'
+    },
+    {
+      sourceNode: 'a',
+      targetNode: 'd'
+    },
+    {
+      sourceNode: 'c',
+      targetNode: 'b'
+    },
+    {
+      sourceNode: 'd',
+      targetNode: 'b'
+    }
   ]
 }
-
-export simpleGraph
