@@ -1,10 +1,10 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.css'
-import App from './Graph'
+import SimpleGraph from './SimpleGraph'
 
 const container = document.getElementById('root')
-const renderApp = () => ReactDOM.render(<App />, container)
+const renderApp = () => ReactDOM.render(<SimpleGraph />, container)
 
 renderApp()
 
