@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { render } from 'react-dom'
 import * as dagre from 'dagre'
+import { Node } from './Node'
 
 const data = {
   nodes: [
@@ -83,24 +84,14 @@ class Graph extends React.Component<GraphProps, any> {
         }}
       >
         {this.props.nodes.map(node => (
-          <div
-            key={node.id}
-            style={{
-              position: 'absolute',
-              left: node.x - node.width / 2,
-              top: node.y - node.height / 2,
-              background: node.color,
-              height: node.height,
-              width: node.width,
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              fontSize: 16,
-              fontFamily: 'Roboto, sans-serif'
-            }}
-          >
-            {node.id}
-          </div>
+          <Node
+            id={node.id}
+            x={node.x}
+            y={node.y}
+            height={node.height}
+            width={node.width}
+            color={node.color}
+          />
         ))}
         <svg width={this.props.width} height={this.props.height}>
           {polyLinePoints.map(points => (
