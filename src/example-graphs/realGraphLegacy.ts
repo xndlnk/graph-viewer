@@ -1,4 +1,27 @@
-export const legacyGraph = {
+export interface System {
+  name: string
+  services: Service[]
+  links: Link[]
+  subSystems: System[]
+}
+
+export interface Service {
+  name: string
+  properties: Property[]
+}
+
+export interface Property {
+  name: string
+  value: string
+}
+
+export interface Link {
+  sourceName: string
+  targetName: string
+  communicationType: string
+}
+
+export const graph: System = {
   services: [
     {
       name: 'exchange verge',

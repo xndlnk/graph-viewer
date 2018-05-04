@@ -1,5 +1,7 @@
 export interface Node {
   id: string
+  label?: string
+  kind?: string
   nodes?: Node[]
   edges?: Edge[]
   properties?: Property[]
