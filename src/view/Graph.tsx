@@ -32,9 +32,9 @@ export class Graph extends React.Component<GraphProps, any> {
 
     return (
       <div
-        // width={this.props.width}
-        // height={height}
         style={{
+          width: width,
+          height: height,
           position: 'relative'
         }}
       >

@@ -1,12 +1,11 @@
 import * as React from 'react'
 import { Graph } from './Graph'
-import { simpleGraph } from '../example-graphs/simpleGraph'
 import * as model from '../domain/model'
 import { GraphService } from '../domain/service'
 import { Route, Link, match, RouteComponentProps } from 'react-router-dom'
 
 export const FocusedNode = (props: FocusedNodeProps) => {
-  let graphService = new GraphService(simpleGraph)
+  let graphService = new GraphService(props.graph)
 
   let neighbourNodes = graphService.getNeighbourNodes(props.focusedNodeId)
 
