@@ -2,7 +2,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import * as dagre from 'dagre'
 import { Node } from './Node'
-import * as model from './domain/model'
+import * as model from '../domain/model'
 import { withRouter } from 'react-router'
 
 export interface GraphProps {

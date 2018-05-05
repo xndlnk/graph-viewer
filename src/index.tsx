@@ -1,8 +1,8 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.css'
-import { SimpleGraph } from './SimpleGraph'
-import { FocusedNode } from './FocusedNode'
+import { SimpleGraph } from './view/SimpleGraph'
+import { FocusedNode } from './view/FocusedNode'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 import { simpleGraph } from './example-graphs/simpleGraph'
