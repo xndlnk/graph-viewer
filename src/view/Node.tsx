@@ -13,6 +13,8 @@ export interface NodeProps extends RouteComponentProps<any> {
 }
 
 export const Node = withRouter((props: NodeProps) => {
+  let urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.id)
+
   return (
     <div
         key={props.id}
@@ -30,7 +32,13 @@ export const Node = withRouter((props: NodeProps) => {
           fontFamily: 'Roboto, sans-serif'
         }}
     >
-      <Link to={`${props.match.url}/focus/${props.id}`}>{props.id}</Link>
+      <Link to={urlForFocussingNode}>{props.id}</Link>
     </div>
   )
 })
+
+function getUrlForFocussingNode(matchUrl: string, nodeId: string) {
+  let focusPathStart = matchUrl.lastIndexOf('/focus')
+  let rootUrl = focusPathStart > 0 ? matchUrl.substr(0, focusPathStart) : matchUrl
+  return rootUrl + `/focus/${nodeId}`
+}
