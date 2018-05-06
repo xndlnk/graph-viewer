@@ -4,6 +4,7 @@ export interface Node {
   kind?: string
   nodes?: Node[]
   edges?: Edge[]
+  color?: string
 }
 
 export interface Edge {

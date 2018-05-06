@@ -5,6 +5,8 @@ import { Node } from './Node'
 import { Edge } from './Edge'
 import * as model from '../domain/model'
 import { withRouter } from 'react-router'
+import { GraphService } from '../domain/service'
+import * as _ from 'lodash'
 
 export interface GraphProps {
   graph: model.Node
@@ -63,29 +65,17 @@ function convertGraphToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
   dagreGraph.setGraph({})
   dagreGraph.setDefaultEdgeLabel(() => ({}))
 
-  graph.nodes.forEach(node => {
-    dagreGraph.setNode(node.id, {
-      width: 100,
-      height: 40,
-      color: 'lightgrey',
-      ...node
-    })
-  })
-  graph.edges.forEach(edge => {
+  addNodes(dagreGraph, graph.nodes)
+
+  let secondLevelNodes = getSecondLevelNodes(graph)
+  addNodes(dagreGraph, secondLevelNodes)
+  setParentForSecondLevelNodes(dagreGraph, graph)
+
+  let graphService = new GraphService(graph)
+
+  graphService.getAllEdges(graph).forEach(edge => {
     dagreGraph.setEdge(edge.sourceNode, edge.targetNode)
   })
-
-  if (graph.nodes.find((node) => node.id === 'c') && graph.nodes.find((node) => node.id === 'e')) {
-    dagreGraph.setNode('group', {
-      id: 'group',
-      width: 150,
-      height: 50,
-      color: 'rgba(255, 0, 0, 0.2)'
-    })
-
-    dagreGraph.setParent('c', 'group')
-    dagreGraph.setParent('e', 'group')
-  }
 
   dagreGraph.graph().nodesep = 30
   dagreGraph.graph().edgesep = 15
@@ -93,4 +83,31 @@ function convertGraphToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
   dagreGraph.graph().ranker = 'tight-tree'
 
   return dagreGraph
+}
+
+function addNodes(dagreGraph: dagre.graphlib.Graph, nodes: model.Node[]) {
+  nodes.forEach(node => {
+    dagreGraph.setNode(node.id, {
+      width: 100,
+      height: 40,
+      color: 'lightgrey',
+      ...node
+    })
+  })
+}
+
+function setParentForSecondLevelNodes(dagreGraph: dagre.graphlib.Graph, graph: model.Node) {
+  graph.nodes
+    .filter(node => node.nodes && node.nodes.length > 0)
+    .forEach(topNode => {
+      topNode.nodes.forEach(secondNode => {
+        dagreGraph.setParent(secondNode.id, topNode.id)
+      })
+    })
+}
+
+function getSecondLevelNodes(graph: model.Node): model.Node[] {
+  return _.flatten(graph.nodes
+    .filter(node => node.nodes && node.nodes.length > 0)
+    .map(node => node.nodes))
 }

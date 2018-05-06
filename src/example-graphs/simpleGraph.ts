@@ -4,32 +4,59 @@ export const simpleGraph: Node = {
   id: 'simple',
   label: 'simple graph',
   nodes: [
-    { id: 'a' },
+    { id: 'source1' },
+    { id: 'source2' },
+    { id: 'sink1' },
+    { id: 'sink2' },
+    {
+      id: 'subsystem1',
+      color: 'rgba(255, 0, 0, 0.2)',
+      nodes: [
+        { id: 'a' },
+        { id: 'c' }
+      ],
+      edges: [
+        {
+          sourceNode: 'c',
+          targetNode: 'a'
+        }
+      ]
+    },
     { id: 'b' },
-    { id: 'c' },
-    { id: 'd' },
-    { id: 'e' }
+    { id: 'd' }
   ],
   edges: [
     {
-      sourceNode: 'a',
-      targetNode: 'e'
-    },
-    {
-      sourceNode: 'e',
+      sourceNode: 'source1',
       targetNode: 'c'
     },
     {
-      sourceNode: 'a',
+      sourceNode: 'c',
       targetNode: 'd'
     },
     {
-      sourceNode: 'c',
-      targetNode: 'b'
+      sourceNode: 'source2',
+      targetNode: 'c'
+    },
+    {
+      sourceNode: 'source2',
+      targetNode: 'd'
     },
     {
       sourceNode: 'd',
       targetNode: 'b'
+    },
+    {
+      sourceNode: 'a',
+      targetNode: 'sink1'
+    },
+    {
+      sourceNode: 'b',
+      targetNode: 'sink1'
+    },
+    {
+      sourceNode: 'b',
+      targetNode: 'sink2'
     }
   ]
 }

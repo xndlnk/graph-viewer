@@ -1,4 +1,5 @@
 import { Node, Edge } from './model'
+import * as _ from 'lodash'
 
 export class GraphService {
   graph: Node
@@ -8,7 +9,7 @@ export class GraphService {
   }
 
   findNode(nodeId: string): Node {
-    return this.graph.nodes.find(node => node.id === nodeId)
+    return this.getAllNodes(this.graph).find(node => node.id === nodeId)
   }
 
   getNeighbourNodes(nodeId: string): Node[] {
@@ -20,7 +21,7 @@ export class GraphService {
       .filter((edge) => edge.sourceNode === nodeId)
       .map((edge) => edge.targetNode)
 
-    let neighbourNodes = this.graph.nodes
+    let neighbourNodes = this.getAllNodes(this.graph)
       .filter((node) => sourceNodeIds.includes(node.id) || targetNodeIds.includes(node.id))
 
     return neighbourNodes
@@ -30,4 +31,21 @@ export class GraphService {
     return this.graph.edges
       .filter((edge) => edge.sourceNode === nodeId || edge.targetNode === nodeId)
   }
+
+  getAllEdges(root: Node): Edge[] {
+    if (root.edges) {
+      return _.union(root.edges, _.flatten(root.nodes.map(node => this.getAllEdges(node))))
+    } else {
+      return []
+    }
+  }
+
+  getAllNodes(root: Node): Node[] {
+    if (root.nodes) {
+      return _.union(root.nodes, _.flatten(root.nodes.map(node => this.getAllNodes(node))))
+    } else {
+      return []
+    }
+  }
+
 }
