@@ -1,6 +1,5 @@
 # Tasks
 
-- nodes which are contained in top-level nodes are displayed
 - there is a view for displaying only the top-level nodes of a graph. when these nodes are clicked, they are focused.
 - edges have arrows.
 - the graph has a nice styling.
