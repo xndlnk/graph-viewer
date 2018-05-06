@@ -22,8 +22,8 @@ export class Graph extends React.Component<GraphProps, any> {
     let width = dagreGraph.graph().width
     let height = dagreGraph.graph().height
 
-    let nodes = dagreGraph.nodes().map(id => dagreGraph.node(id))
-    let edges = dagreGraph.edges().map(id => dagreGraph.edge(id))
+    let arrangedNodes = dagreGraph.nodes().map(id => dagreGraph.node(id))
+    let arrangedEdges = dagreGraph.edges().map(id => dagreGraph.edge(id))
 
     return (
       <div
@@ -34,7 +34,7 @@ export class Graph extends React.Component<GraphProps, any> {
         }}
       >
         {
-          nodes.map(node => (
+          arrangedNodes.map(node => (
             <Node
               id={node.id}
               x={node.x}
@@ -47,8 +47,8 @@ export class Graph extends React.Component<GraphProps, any> {
         }
         <svg width={width} height={height}>
           {
-            edges.map(edge => (
-              <Edge graphEdge={edge} />
+            arrangedEdges.map(edge => (
+              <Edge arrangedEdge={edge} />
             ))
           }
         </svg>

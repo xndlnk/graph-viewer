@@ -19,8 +19,6 @@ export const FocusedNode = (props: FocusedNodeProps) => {
     edges: graphService.getNeighbourEdges(props.focusedNodeId)
   }
 
-  console.log(JSON.stringify(focusedGraph, null, 2))
-
   return (
     <Graph graph={focusedGraph} />
   )

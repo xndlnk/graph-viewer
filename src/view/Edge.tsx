@@ -3,11 +3,11 @@ import { render } from 'react-dom'
 import * as dagre from 'dagre'
 
 interface EdgeProps {
-  graphEdge: dagre.GraphEdge
+  arrangedEdge: dagre.GraphEdge
 }
 
 export const Edge = (props: EdgeProps) => {
-  let polyLinePoints = props.graphEdge.points.map(point => point.x + ',' + point.y).join(' ')
+  let polyLinePoints = props.arrangedEdge.points.map(point => point.x + ',' + point.y).join(' ')
 
   return (
     <polyline
