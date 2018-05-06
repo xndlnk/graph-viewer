@@ -18,7 +18,7 @@ export class Graph extends React.Component<GraphProps, any> {
   }
 
   render() {
-    let dagreGraph = convertGraphToDagreGraph(this.props.graph)
+    let dagreGraph = convertToDagreGraph(this.props.graph)
     dagre.layout(dagreGraph)
 
     let width = dagreGraph.graph().width
@@ -59,7 +59,7 @@ export class Graph extends React.Component<GraphProps, any> {
   }
 }
 
-function convertGraphToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
+function convertToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
   const dagreGraph = new dagre.graphlib.Graph({ compound: true })
 
   dagreGraph.setGraph({})
@@ -69,7 +69,7 @@ function convertGraphToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
 
   let secondLevelNodes = getSecondLevelNodes(graph)
   addNodes(dagreGraph, secondLevelNodes)
-  setParentForSecondLevelNodes(dagreGraph, graph)
+  setTopLevelNodeAsParentForSecondLevelNodes(dagreGraph, graph)
 
   let graphService = new GraphService(graph)
 
@@ -96,7 +96,7 @@ function addNodes(dagreGraph: dagre.graphlib.Graph, nodes: model.Node[]) {
   })
 }
 
-function setParentForSecondLevelNodes(dagreGraph: dagre.graphlib.Graph, graph: model.Node) {
+function setTopLevelNodeAsParentForSecondLevelNodes(dagreGraph: dagre.graphlib.Graph, graph: model.Node) {
   graph.nodes
     .filter(node => node.nodes && node.nodes.length > 0)
     .forEach(topNode => {
