@@ -2,6 +2,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import * as dagre from 'dagre'
 import { Node } from './Node'
+import { Edge } from './Edge'
 import * as model from '../domain/model'
 import { withRouter } from 'react-router'
 
@@ -24,12 +25,6 @@ export class Graph extends React.Component<GraphProps, any> {
     let nodes = dagreGraph.nodes().map(id => dagreGraph.node(id))
     let edges = dagreGraph.edges().map(id => dagreGraph.edge(id))
 
-    console.log(JSON.stringify(nodes, null, 2))
-
-    let polyLinePoints = edges.map(edge => {
-      return edge.points.map(point => point.x + ',' + point.y).join(' ')
-    })
-
     return (
       <div
         style={{
@@ -38,28 +33,24 @@ export class Graph extends React.Component<GraphProps, any> {
           position: 'relative'
         }}
       >
-        {nodes.map(node => (
-          <Node
-            id={node.id}
-            x={node.x}
-            y={node.y}
-            height={node.height}
-            width={node.width}
-            color={node.color}
-          />
-        ))}
-        <svg width={width} height={height}>
-          {polyLinePoints.map(points => (
-            <polyline
-              key={points}
-              points={points}
-              style={{
-                fill: 'none',
-                stroke: 'black',
-                strokeWidth: 1
-              }}
+        {
+          nodes.map(node => (
+            <Node
+              id={node.id}
+              x={node.x}
+              y={node.y}
+              height={node.height}
+              width={node.width}
+              color={node.color}
             />
-          ))}
+          ))
+        }
+        <svg width={width} height={height}>
+          {
+            edges.map(edge => (
+              <Edge graphEdge={edge} />
+            ))
+          }
         </svg>
       </div>
     )
