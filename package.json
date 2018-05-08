@@ -2,7 +2,7 @@
   "name": "graph-viewer",
   "version": "0.1.0",
   "author": "Andreas Blunk",
-  "license": "MIT",
+  "license": "Apache License Version 2.0",
   "private": true,
   "devDependencies": {
     "@types/dagre": "^0.7.40",
