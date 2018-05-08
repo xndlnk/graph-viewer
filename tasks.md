@@ -9,3 +9,6 @@
 - the graph has a nice styling.
 - a real graph with many nodes and edges is displayed.
 - an alternative Webcola graph component is available (see http://ialab.it.monash.edu/webcola/)
+
+- extract generic typescript graph library: graphts
+- provides a clean and simple graph model with functions
