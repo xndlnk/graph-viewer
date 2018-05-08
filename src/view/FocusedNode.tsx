@@ -16,7 +16,7 @@ export const FocusedNode = (props: FocusedNodeProps) => {
   let focusedGraph: model.Node = {
     id: 'focused_' + props.focusedNodeId,
     nodes: nodes,
-    edges: graphService.getNeighbourEdges(props.focusedNodeId)
+    edges: graphService.getNeighbourEdges(focusedNode)
   }
 
   return (
