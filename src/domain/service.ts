@@ -12,13 +12,14 @@ export class GraphService {
     return this.getAllNodes(this.graph).find(node => node.id === nodeId)
   }
 
-  getNeighbourNodes(nodeId: string): Node[] {
-    let sourceNodeIds = this.graph.edges
-      .filter((edge) => edge.targetNode === nodeId)
+  getNeighbourNodes(node: Node): Node[] {
+    let allEdges = this.getAllEdges(this.graph)
+    let sourceNodeIds = allEdges
+      .filter((edge) => edge.targetNode === node.id)
       .map((edge) => edge.sourceNode)
 
-    let targetNodeIds = this.graph.edges
-      .filter((edge) => edge.sourceNode === nodeId)
+    let targetNodeIds = allEdges
+      .filter((edge) => edge.sourceNode === node.id)
       .map((edge) => edge.targetNode)
 
     let neighbourNodes = this.getAllNodes(this.graph)
@@ -28,7 +29,7 @@ export class GraphService {
   }
 
   getNeighbourEdges(nodeId: string): Edge[] {
-    return this.graph.edges
+    return this.getAllEdges(this.graph)
       .filter((edge) => edge.sourceNode === nodeId || edge.targetNode === nodeId)
   }
 
