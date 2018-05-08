@@ -2,4 +2,5 @@
 
 graph-viewer is a React-based web front-end for displaying and interacting with graphs.
 
-[Demo](https://codesandbox.io/s/github/xndlnk/graph-viewer)
+- uses React, Parcel, TypeScript, Dagre
+- [Demo](https://codesandbox.io/s/github/xndlnk/graph-viewer)
