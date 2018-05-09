@@ -11,7 +11,8 @@ export class NodeCollapser {
 
   collapseContainedNodes(graph: Node): Node {
     if (graph.edges) {
-      let redirectedEdges = graph.edges.map(edge => this.getInsideNodesRedirectedToTopLevelNodes(graph, edge))
+      let redirectedEdges = graph.edges
+        .map(edge => this.getInsideEdgesRedirectedToTopLevelNodes(graph, edge))
 
       let collapsedNodes = graph.nodes
       if (collapsedNodes) {
@@ -33,7 +34,7 @@ export class NodeCollapser {
     }
   }
 
-  getInsideNodesRedirectedToTopLevelNodes(graph: Node, edge: Edge): Edge {
+  getInsideEdgesRedirectedToTopLevelNodes(graph: Node, edge: Edge): Edge {
     let sourceNode: string = edge.sourceNode
     if (graph.nodes && !graph.nodes.find(node => node.id === edge.sourceNode)) {
       sourceNode = this.getTopLevelParentInGraph(graph, edge.sourceNode).id
