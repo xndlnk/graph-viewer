@@ -5,15 +5,11 @@ test('find nodes by id', () => {
   let graph: Node = {
     id: 'test-graph',
     nodes: [
-      {
-        id: 'a'
-      },
+      { id: 'a' },
       {
         id: 'b',
         nodes: [
-          {
-            id: 'c'
-          }
+          { id: 'c' }
         ]
       }
     ]
