@@ -47,17 +47,14 @@ export class NodeCollapser {
 
   getTopLevelParentInGraph(graph: Node, searchedNodeId: string): Node {
     let topNode = graph.nodes
-      .map(node => {
-        if (this.isTopLevelParent(node, searchedNodeId)) return node
-        else return null
-      })
-      .find(node => node !== null)
+      .find(node => this.isTopLevelParent(node, searchedNodeId))
     return topNode ? topNode : null
   }
 
   private isTopLevelParent(currentNode: Node, searchedNodeId: string): boolean {
     if (currentNode.nodes) {
-      if (currentNode.nodes.find(childNode => childNode.id === searchedNodeId)) {
+      if (currentNode.nodes
+          .some(childNode => childNode.id === searchedNodeId)) {
         return true
       } else {
         return currentNode.nodes
