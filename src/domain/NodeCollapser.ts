@@ -48,25 +48,23 @@ export class NodeCollapser {
   getTopLevelParentInGraph(graph: Node, searchedNodeId: string): Node {
     let topNode = graph.nodes
       .map(node => {
-        if (this.getTopLevelParent(node, searchedNodeId) != null) return node
+        if (this.isTopLevelParent(node, searchedNodeId)) return node
         else return null
       })
       .find(node => node !== null)
     return topNode ? topNode : null
   }
 
-  private getTopLevelParent(currentNode: Node, searchedNodeId: string): Node {
+  private isTopLevelParent(currentNode: Node, searchedNodeId: string): boolean {
     if (currentNode.nodes) {
       if (currentNode.nodes.find(childNode => childNode.id === searchedNodeId)) {
-        return currentNode
+        return true
       } else {
-        let parentNode = currentNode.nodes
-          .map(childNode => this.getTopLevelParent(childNode, searchedNodeId))
-          .find(node => node !== null)
-        return parentNode ? currentNode : null
+        return currentNode.nodes
+          .some(childNode => this.isTopLevelParent(childNode, searchedNodeId))
       }
     } else {
-      return null
+      return false
     }
   }
 }

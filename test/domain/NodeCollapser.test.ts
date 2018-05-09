@@ -2,7 +2,7 @@ import { Node } from '../../src/domain/model'
 import { GraphService } from '../../src/domain/service'
 import { NodeCollapser } from '../../src/domain/NodeCollapser'
 
-test('top level parent is found', () => {
+test('top level parent node of a graph is found', () => {
   let graph: Node = {
     id: 'test-graph',
     nodes: [
@@ -36,9 +36,7 @@ test.only('edges to inside nodes of all contained nodes are moved to edges to th
   let graph: Node = {
     id: 'test-graph',
     nodes: [
-      {
-        id: 'a'
-      },
+      { id: 'a' },
       {
         id: 'b',
         nodes: [
@@ -57,12 +55,8 @@ test.only('edges to inside nodes of all contained nodes are moved to edges to th
   let expectedGraph: Node = {
     id: 'test-graph',
     nodes: [
-      {
-        id: 'a'
-      },
-      {
-        id: 'b'
-      }
+      { id: 'a' },
+      { id: 'b' }
     ],
     edges: [
       { sourceNode: 'a', targetNode: 'b' }
