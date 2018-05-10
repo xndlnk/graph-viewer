@@ -3,7 +3,7 @@ import { GraphService } from '../../src/domain/service'
 import { NodeCollapser } from '../../src/domain/NodeCollapser'
 
 test('top level parent node of a graph is found', () => {
-  let graph: Node = {
+  let graph: Node = Node.ofRawNode({
     id: 'test-graph',
     nodes: [
       {
@@ -23,7 +23,7 @@ test('top level parent node of a graph is found', () => {
         ]
       }
     ]
-  }
+  })
 
   let gs = new GraphService(graph)
   let nodeCollapser = new NodeCollapser(gs)
@@ -32,8 +32,8 @@ test('top level parent node of a graph is found', () => {
   expect(nodeCollapser.getTopLevelParentInGraph(graph, 'd').id).toEqual('b')
 })
 
-test.only('edges to inside nodes of all contained nodes are moved to edges to the contained nodes themselfes', () => {
-  let graph: Node = {
+test('edges to inside nodes of all contained nodes are moved to edges to the contained nodes themselfes', () => {
+  let graph: Node = Node.ofRawNode({
     id: 'test-graph',
     nodes: [
       { id: 'a' },
@@ -45,23 +45,23 @@ test.only('edges to inside nodes of all contained nodes are moved to edges to th
       }
     ],
     edges: [
-      { sourceNode: 'a', targetNode: 'c' }
+      { sourceId: 'a', targetId: 'c' }
     ]
-  }
+  })
 
   let nodeCollapser = new NodeCollapser(new GraphService(graph))
   let collapsedGraph = nodeCollapser.collapseContainedNodes(graph)
 
-  let expectedGraph: Node = {
+  let expectedGraph: Node = Node.ofRawNode({
     id: 'test-graph',
     nodes: [
       { id: 'a' },
       { id: 'b' }
     ],
     edges: [
-      { sourceNode: 'a', targetNode: 'b' }
+      { sourceId: 'a', targetId: 'b' }
     ]
-  }
+  })
 
   expect(collapsedGraph).toEqual(expectedGraph)
 })

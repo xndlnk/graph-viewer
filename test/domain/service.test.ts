@@ -2,7 +2,7 @@ import { Node } from '../../src/domain/model'
 import { GraphService } from '../../src/domain/service'
 
 test('find nodes by id', () => {
-  let graph: Node = {
+  let graph: Node = Node.ofRawNode({
     id: 'test-graph',
     nodes: [
       { id: 'a' },
@@ -13,9 +13,9 @@ test('find nodes by id', () => {
         ]
       }
     ]
-  }
+  })
   let graphService = new GraphService(graph)
 
-  expect(graphService.findNode('a')).toEqual({ id: 'a' })
-  expect(graphService.findNode('c')).toEqual({ id: 'c' })
+  expect(graphService.findNode('a').id).toEqual('a')
+  expect(graphService.findNode('c').id).toEqual('c')
 })

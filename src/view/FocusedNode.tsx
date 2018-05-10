@@ -13,11 +13,10 @@ export const FocusedNode = (props: FocusedNodeProps) => {
   let nodes = neighbourNodes.slice()
   nodes.push(focusedNode)
 
-  let focusedGraph: model.Node = {
-    id: 'focused_' + props.focusedNodeId,
-    nodes: nodes,
-    edges: graphService.getNeighbourEdges(focusedNode)
-  }
+  let focusedGraph: model.Node = new model.Node(
+    'focused_' + props.focusedNodeId,
+    nodes,
+    graphService.getNeighbourEdges(focusedNode))
 
   return (
     <Graph graph={focusedGraph} />

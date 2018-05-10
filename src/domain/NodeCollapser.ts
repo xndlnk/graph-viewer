@@ -10,55 +10,48 @@ export class NodeCollapser {
   }
 
   collapseContainedNodes(graph: Node): Node {
-    if (graph.edges) {
-      let redirectedEdges = graph.edges
+    if (graph.hasEdges()) {
+      let redirectedEdges = graph.getEdges()
         .map(edge => this.getInsideEdgesRedirectedToTopLevelNodes(graph, edge))
 
-      let collapsedNodes = graph.nodes
-      if (collapsedNodes) {
-        collapsedNodes = graph.nodes
-          .map(node => {
-            let nodeCopy = JSON.parse(JSON.stringify(node))
-            nodeCopy.nodes = undefined
-            nodeCopy.edges = undefined
-            return nodeCopy
-          })
-      }
+      let collapsedNodes = graph.getNodes()
+        .map(node => {
+          let nodeCopy = JSON.parse(JSON.stringify(node))
+          return new Node(nodeCopy.id, [], [], nodeCopy.props)
+        })
 
       let graphCopy = JSON.parse(JSON.stringify(graph))
-      graphCopy.nodes = collapsedNodes
-      graphCopy.edges = redirectedEdges
-      return graphCopy
+      return new Node(graphCopy.id, collapsedNodes, redirectedEdges, graphCopy.props)
     } else {
       return graph
     }
   }
 
   getInsideEdgesRedirectedToTopLevelNodes(graph: Node, edge: Edge): Edge {
-    let sourceNode: string = edge.sourceNode
-    if (graph.nodes && !graph.nodes.find(node => node.id === edge.sourceNode)) {
-      sourceNode = this.getTopLevelParentInGraph(graph, edge.sourceNode).id
+    let sourceId: string = edge.sourceId
+    if (!graph.getNodes().find(node => node.id === edge.sourceId)) {
+      sourceId = this.getTopLevelParentInGraph(graph, edge.sourceId).id
     }
-    let targetNode: string = edge.targetNode
-    if (graph.nodes && !graph.nodes.find(node => node.id === edge.targetNode)) {
-      targetNode = this.getTopLevelParentInGraph(graph, edge.targetNode).id
+    let targetId: string = edge.targetId
+    if (!graph.getNodes().find(node => node.id === edge.targetId)) {
+      targetId = this.getTopLevelParentInGraph(graph, edge.targetId).id
     }
-    return { sourceNode: sourceNode, targetNode: targetNode }
+    return new Edge(sourceId, targetId)
   }
 
   getTopLevelParentInGraph(graph: Node, searchedNodeId: string): Node {
-    let topNode = graph.nodes
-      .find(node => this.isTopLevelParent(node, searchedNodeId))
+    let topNode = graph.getNodes().find(node => this.isTopLevelParent(node, searchedNodeId))
     return topNode ? topNode : null
   }
 
   private isTopLevelParent(currentNode: Node, searchedNodeId: string): boolean {
-    if (currentNode.nodes) {
-      if (currentNode.nodes
+    // TODO: refactor
+    if (currentNode.getNodes()) {
+      if (currentNode.getNodes()
           .some(childNode => childNode.id === searchedNodeId)) {
         return true
       } else {
-        return currentNode.nodes
+        return currentNode.getNodes()
           .some(childNode => this.isTopLevelParent(childNode, searchedNodeId))
       }
     } else {

@@ -1,8 +1,7 @@
-import { Node, Edge } from '../domain/model'
+import { RawNode, Node } from '../domain/model'
 
-export const simpleGraph: Node = {
+const rawSimpleGraph: RawNode = {
   id: 'simple',
-  label: 'simple graph',
   nodes: [
     { id: 'source1' },
     { id: 'source2' },
@@ -10,53 +9,57 @@ export const simpleGraph: Node = {
     { id: 'sink2' },
     {
       id: 'subsystem1',
-      color: 'rgba(255, 0, 0, 0.2)',
       nodes: [
         { id: 'a' },
         { id: 'c' }
       ],
       edges: [
         {
-          sourceNode: 'c',
-          targetNode: 'a'
+          sourceId: 'c',
+          targetId: 'a'
         }
-      ]
+      ],
+      props: {
+        color: 'rgba(255, 0, 0, 0.2)'
+      }
     },
     { id: 'b' },
     { id: 'd' }
   ],
   edges: [
     {
-      sourceNode: 'source1',
-      targetNode: 'c'
+      sourceId: 'source1',
+      targetId: 'c'
     },
     {
-      sourceNode: 'c',
-      targetNode: 'd'
+      sourceId: 'c',
+      targetId: 'd'
     },
     {
-      sourceNode: 'source2',
-      targetNode: 'c'
+      sourceId: 'source2',
+      targetId: 'c'
     },
     {
-      sourceNode: 'source2',
-      targetNode: 'd'
+      sourceId: 'source2',
+      targetId: 'd'
     },
     {
-      sourceNode: 'd',
-      targetNode: 'b'
+      sourceId: 'd',
+      targetId: 'b'
     },
     {
-      sourceNode: 'a',
-      targetNode: 'sink1'
+      sourceId: 'a',
+      targetId: 'sink1'
     },
     {
-      sourceNode: 'b',
-      targetNode: 'sink1'
+      sourceId: 'b',
+      targetId: 'sink1'
     },
     {
-      sourceNode: 'b',
-      targetNode: 'sink2'
+      sourceId: 'b',
+      targetId: 'sink2'
     }
   ]
 }
+
+export const simpleGraph = Node.ofRawNode(rawSimpleGraph)

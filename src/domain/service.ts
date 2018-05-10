@@ -12,27 +12,27 @@ export class GraphService {
   }
 
   findNode(nodeId: string): Node {
-    return this.getAllNodes().find(node => node.id === nodeId)
+    return this.getAllNodes().find(node => node.sameId(nodeId))
   }
 
   getNeighbourNodes(node: Node): Node[] {
-    let sourceNodeIds = this.getAllEdges()
-      .filter((edge) => edge.targetNode === node.id)
-      .map((edge) => edge.sourceNode)
+    let sourceIds = this.getAllEdges()
+      .filter((edge) => node.sameId(edge.targetId))
+      .map((edge) => edge.sourceId)
 
-    let targetNodeIds = this.getAllEdges()
-      .filter((edge) => edge.sourceNode === node.id)
-      .map((edge) => edge.targetNode)
+    let targetIds = this.getAllEdges()
+      .filter((edge) => node.sameId(edge.sourceId))
+      .map((edge) => edge.targetId)
 
     let neighbourNodes = this.getAllNodes()
-      .filter((node) => sourceNodeIds.includes(node.id) || targetNodeIds.includes(node.id))
+      .filter((node) => sourceIds.includes(node.id) || targetIds.includes(node.id))
 
     return neighbourNodes
   }
 
   getNeighbourEdges(node: Node): Edge[] {
     return this.getAllEdges()
-      .filter((edge) => edge.sourceNode === node.id || edge.targetNode === node.id)
+      .filter((edge) => edge.sourceId === node.id || edge.targetId === node.id)
   }
 
   getAllEdges(): Edge[] {
@@ -50,16 +50,16 @@ export class GraphService {
   }
 
   private computeAllEdges(root: Node): Edge[] {
-    if (root.edges) {
-      return _.union(root.edges, _.flatten(root.nodes.map(node => this.computeAllEdges(node))))
+    if (root.getEdges()) {
+      return _.union(root.getEdges(), _.flatten(root.getNodes().map(node => this.computeAllEdges(node))))
     } else {
       return []
     }
   }
 
   private computeAllNodes(root: Node): Node[] {
-    if (root.nodes) {
-      return _.union(root.nodes, _.flatten(root.nodes.map(node => this.computeAllNodes(node))))
+    if (root.getNodes()) {
+      return _.union(root.getNodes(), _.flatten(root.getNodes().map(node => this.computeAllNodes(node))))
     } else {
       return []
     }

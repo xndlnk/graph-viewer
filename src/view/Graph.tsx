@@ -65,7 +65,7 @@ function convertToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
   dagreGraph.setGraph({})
   dagreGraph.setDefaultEdgeLabel(() => ({}))
 
-  addNodes(dagreGraph, graph.nodes)
+  addNodes(dagreGraph, graph.getNodes())
 
   let secondLevelNodes = getSecondLevelNodes(graph)
   addNodes(dagreGraph, secondLevelNodes)
@@ -73,8 +73,8 @@ function convertToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
 
   let graphService = new GraphService(graph)
 
-  graphService.getAllEdges(graph).forEach(edge => {
-    dagreGraph.setEdge(edge.sourceNode, edge.targetNode)
+  graphService.getAllEdges().forEach(edge => {
+    dagreGraph.setEdge(edge.sourceId, edge.targetId)
   })
 
   dagreGraph.graph().nodesep = 30
@@ -97,17 +97,18 @@ function addNodes(dagreGraph: dagre.graphlib.Graph, nodes: model.Node[]) {
 }
 
 function setTopLevelNodeAsParentForSecondLevelNodes(dagreGraph: dagre.graphlib.Graph, graph: model.Node) {
-  graph.nodes
-    .filter(node => node.nodes && node.nodes.length > 0)
+  graph.getNodes()
+    .filter(node => node.hasNodes())
     .forEach(topNode => {
-      topNode.nodes.forEach(secondNode => {
+      topNode.getNodes().forEach(secondNode => {
         dagreGraph.setParent(secondNode.id, topNode.id)
       })
     })
 }
 
 function getSecondLevelNodes(graph: model.Node): model.Node[] {
-  return _.flatten(graph.nodes
-    .filter(node => node.nodes && node.nodes.length > 0)
-    .map(node => node.nodes))
+  return _.flatten(
+    graph.getNodes()
+      .filter(node => node.hasNodes())
+      .map(node => node.getNodes()))
 }
