@@ -43,7 +43,7 @@ export class Graph extends React.Component<GraphProps, any> {
               y={node.y}
               height={node.height}
               width={node.width}
-              color={node.color}
+              node={node.node}
             />
           ))
         }
@@ -90,7 +90,8 @@ function addNodes(dagreGraph: dagre.graphlib.Graph, nodes: model.Node[]) {
     dagreGraph.setNode(node.id, {
       width: 100,
       height: 40,
-      color: 'lightgrey',
+      node: node,
+      // color: 'lightgrey',
       ...node
     })
   })

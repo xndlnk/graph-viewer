@@ -2,6 +2,7 @@ import * as React from 'react'
 import { render } from 'react-dom'
 import { Route, Link, match, RouteComponentProps } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import * as model from '../domain/model'
 
 export interface NodeProps extends RouteComponentProps<any> {
   id: string
@@ -9,11 +10,14 @@ export interface NodeProps extends RouteComponentProps<any> {
   y: number
   width: number
   height: number
-  color: string
+  node: model.Node
 }
 
 export const Node = withRouter((props: NodeProps) => {
   let urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.id)
+
+  let propsColor = props.node.getProps() ? props.node.getProps().color : undefined
+  let color = propsColor ? propsColor : 'lightgrey'
 
   return (
     <div
@@ -22,7 +26,7 @@ export const Node = withRouter((props: NodeProps) => {
           position: 'absolute',
           left: props.x - props.width / 2,
           top: props.y - props.height / 2,
-          background: props.color,
+          background: color,
           height: props.height,
           width: props.width,
           display: 'flex',

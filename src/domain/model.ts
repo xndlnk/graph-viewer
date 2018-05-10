@@ -63,6 +63,10 @@ export class Node {
   hasEdges(): boolean {
     return this.edges.length > 0
   }
+
+  getProps(): Props {
+    return this.props
+  }
 }
 
 export class Edge {
