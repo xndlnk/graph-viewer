@@ -67,6 +67,11 @@ export class Node {
   getProps(): Props {
     return this.props
   }
+
+  getProp(propName: string, alternativeValue: any): any {
+    let value = this.props ? this.props[propName] : undefined
+    return value ? value : alternativeValue
+  }
 }
 
 export class Edge {

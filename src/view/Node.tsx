@@ -5,7 +5,6 @@ import { withRouter } from 'react-router'
 import * as model from '../domain/model'
 
 export interface NodeProps extends RouteComponentProps<any> {
-  id: string
   x: number
   y: number
   width: number
@@ -14,14 +13,13 @@ export interface NodeProps extends RouteComponentProps<any> {
 }
 
 export const Node = withRouter((props: NodeProps) => {
-  let urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.id)
+  let urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
 
-  let propsColor = props.node.getProps() ? props.node.getProps().color : undefined
-  let color = propsColor ? propsColor : 'lightgrey'
+  let color = props.node.getProp('color', 'lightgrey')
 
   return (
     <div
-        key={props.id}
+        key={props.node.id}
         style={{
           position: 'absolute',
           left: props.x - props.width / 2,
@@ -36,7 +34,7 @@ export const Node = withRouter((props: NodeProps) => {
           fontFamily: 'Roboto, sans-serif'
         }}
     >
-      <Link to={urlForFocussingNode}>{props.id}</Link>
+      <Link to={urlForFocussingNode}>{props.node.id}</Link>
     </div>
   )
 })
