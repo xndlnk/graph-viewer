@@ -45,17 +45,10 @@ export class NodeCollapser {
   }
 
   private isTopLevelParent(currentNode: Node, searchedNodeId: string): boolean {
-    // TODO: refactor
-    if (currentNode.getNodes()) {
-      if (currentNode.getNodes()
-          .some(childNode => childNode.id === searchedNodeId)) {
-        return true
-      } else {
-        return currentNode.getNodes()
-          .some(childNode => this.isTopLevelParent(childNode, searchedNodeId))
-      }
+    if (currentNode.getNodes().some(childNode => childNode.id === searchedNodeId)) {
+      return true
     } else {
-      return false
+      return currentNode.getNodes().some(childNode => this.isTopLevelParent(childNode, searchedNodeId))
     }
   }
 }
