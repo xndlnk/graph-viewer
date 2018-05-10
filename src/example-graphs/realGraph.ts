@@ -1,12 +1,11 @@
 import * as legacyGraph from './realGraphLegacy'
-import * as model from '../model'
+import * as model from '../domain/model'
 
-export const systemNode: model.Node = convertLegacySystemToNode(legacyGraph.graph)
+export const systemNode: model.RawNode = convertLegacySystemToNode(legacyGraph.graph)
 
-function convertLegacySystemToNode(system: legacyGraph.System): model.Node {
-  let node: model.Node = {
-    id: system.name,
-    label: system.name
+function convertLegacySystemToNode(system: legacyGraph.System): model.RawNode {
+  let node: model.RawNode = {
+    id: system.name
   }
 
   node.nodes = []
@@ -26,22 +25,25 @@ function convertLegacySystemToNode(system: legacyGraph.System): model.Node {
   return node
 }
 
-function convertServiceToNode(service: legacyGraph.Service): model.Node {
-  let node: model.Node = {
-    id: service.name,
-    label: service.name
+function convertServiceToNode(service: legacyGraph.Service): model.RawNode {
+  let node: model.RawNode = {
+    id: service.name
   }
   if (service.name.startsWith('exchange')) {
-    node.kind = 'exchange'
-    node.label = service.name.substring('exchange '.length)
+    node.props = {
+      kind: 'exchange',
+      label: service.name.substring('exchange '.length)
+    }
   }
   return node
 }
 
-function convertLinkToEdge(link: legacyGraph.Link): model.Edge {
+function convertLinkToEdge(link: legacyGraph.Link): model.RawEdge {
   return {
-    sourceNode: link.sourceName,
-    targetNode: link.targetName,
-    kind: link.communicationType
+    sourceId: link.sourceName,
+    targetId: link.targetName,
+    props: {
+      kind: link.communicationType
+    }
   }
 }
