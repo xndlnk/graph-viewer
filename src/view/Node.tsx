@@ -40,7 +40,12 @@ export const Node = withRouter((props: NodeProps) => {
 })
 
 function getUrlForFocussingNode(matchUrl: string, nodeId: string) {
-  let focusPathStart = matchUrl.lastIndexOf('/focus')
-  let rootUrl = focusPathStart > 0 ? matchUrl.substr(0, focusPathStart) : matchUrl
-  return rootUrl + `/focus/${nodeId}`
+  let focusUrlPath = `/focus/${nodeId}`
+
+  let matchResult = matchUrl.match(/\/graph\/(\w+)/)
+  if (matchResult) {
+    return matchResult[0] + focusUrlPath
+  } else {
+    return matchUrl + focusUrlPath
+  }
 }
