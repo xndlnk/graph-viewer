@@ -1,9 +1,5 @@
 # Tasks
 
-- there is a reduced view
-  - displays top-level nodes only
-  - for each edge connecting top-level node a with second-level node b,
-    an edge from node a to the parent of node b is added
 - focussing a node which has no edges (sub-systems), displays also all the neighbour nodes of the node's contained nodes
 - edges have arrows.
 - the graph has a nice styling.
