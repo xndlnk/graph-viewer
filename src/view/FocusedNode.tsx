@@ -7,17 +7,10 @@ import { Route, Link, match, RouteComponentProps } from 'react-router-dom'
 
 export const FocusedNode = (props: FocusedNodeProps) => {
   let graphService = new GraphService(props.graph)
-
   let focusedNode = graphService.findNode(props.focusedNodeId)
-  let neighbourNodes = graphService.getNeighbourNodes(focusedNode)
 
-  let nodes = neighbourNodes.slice()
-  nodes.push(focusedNode)
-
-  let focusedGraph: model.Node = new model.Node(
-    'focused_' + props.focusedNodeId,
-    nodes,
-    graphService.getNeighbourEdges(focusedNode))
+  let nodeFocussor = new NodeFocusser()
+  let focusedGraph = nodeFocussor.focusNode(props.graph, focusedNode)
 
   return (
     <Graph graph={focusedGraph} />

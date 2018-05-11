@@ -31,7 +31,6 @@ export class NodeFocusser {
     }
 
     const nodeIdsToKeep = _.union(neighbourNodeIds, allInnerNodeIds, additionalIds)
-    console.log(nodeIdsToKeep)
 
     return graphService.reduce(nodeIdsToKeep)
   }
