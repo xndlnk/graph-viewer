@@ -25,8 +25,7 @@ test('top level parent node of a graph is found', () => {
     ]
   })
 
-  let gs = new GraphService(graph)
-  let nodeCollapser = new NodeCollapser(gs)
+  let nodeCollapser = new NodeCollapser()
 
   expect(nodeCollapser.getTopLevelParentInGraph(graph, 'c').id).toEqual('b')
   expect(nodeCollapser.getTopLevelParentInGraph(graph, 'd').id).toEqual('b')
@@ -49,7 +48,7 @@ test('edges to inside nodes of all contained nodes are moved to edges to the con
     ]
   })
 
-  let nodeCollapser = new NodeCollapser(new GraphService(graph))
+  let nodeCollapser = new NodeCollapser()
   let collapsedGraph = nodeCollapser.collapseContainedNodes(graph)
 
   let expectedGraph: Node = Node.ofRawNode({

@@ -3,11 +3,6 @@ import { Node, Edge } from './model'
 import { GraphService } from './service'
 
 export class NodeCollapser {
-  private graphService: GraphService
-
-  constructor(graphService: GraphService) {
-    this.graphService = graphService
-  }
 
   collapseContainedNodes(graph: Node): Node {
     if (graph.hasEdges()) {
