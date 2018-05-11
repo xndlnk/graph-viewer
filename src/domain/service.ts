@@ -66,6 +66,17 @@ export class GraphService {
     return this.allEdges
   }
 
+  getAllEdgesConnectingNodeId(nodeIds: string[]): Edge[] {
+    return this.getAllEdges().reduce((acc, edge) => {
+      if (nodeIds.includes(edge.sourceId)) {
+        acc.push(edge)
+      } else if (nodeIds.includes(edge.targetId)) {
+        acc.push(edge)
+      }
+      return acc
+    }, [])
+  }
+
   getAllNodes(): Node[] {
     if (!this.allNodes) {
       this.allNodes = this.computeAllNodes(this.graph)
@@ -114,32 +125,6 @@ export class GraphService {
   private computeAllNodes(root: Node): Node[] {
     if (root.getNodes()) {
       return _.union(root.getNodes(), _.flatten(root.getNodes().map(node => this.computeAllNodes(node))))
-    } else {
-      return []
-    }
-  }
-
-  private reduceNodes(nodes: Node[], idsToKeep: string[]): Node[] {
-    if (nodes) {
-      return _.reduce(nodes, (result, child) => {
-        if (idsToKeep.includes(child.id)) {
-          result.push(child)
-        }
-        return result
-      }, [])
-    } else {
-      return []
-    }
-  }
-
-  private reduceEdges(node: Node, idsToKeep: string[]): Edge[] {
-    if (node.getEdges()) {
-      return _.reduce(node.getEdges(), (result, edge) => {
-        if (idsToKeep.includes(edge.sourceId) || idsToKeep.includes(edge.targetId)) {
-          result.push(edge)
-        }
-        return result
-      }, [])
     } else {
       return []
     }

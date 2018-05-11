@@ -4,23 +4,23 @@ import { GraphService } from './service'
 
 export class NodeFocusser {
 
+  private graphService: GraphService
+
+  constructor(graphService: GraphService) {
+    this.graphService = graphService
+  }
+
   focusNodeById(graph: Node, focusedNodeId: string): Node {
-    const graphService = new GraphService(graph)
-    return this.focusNode(graph, graphService.findNode(focusedNodeId))
+    return this.focusNode(graph, this.graphService.findNode(focusedNodeId))
   }
 
   focusNode(graph: Node, focusedNode: Node): Node {
-    // TODO: reused single graph service?
-    const graphService = new GraphService(graph)
-
-    const neighbourNodeIds = graphService.getNeighbourNodeIds(focusedNode.id)
-    neighbourNodeIds.push(focusedNode.id)
-
-    const allInnerNodeIds = graphService.getAllNodesOfNode(focusedNode).map(node => node.id)
+    const neighbourNodeIds = this.graphService.getNeighbourNodeIds(focusedNode.id)
+    const allInnerNodeIds = this.graphService.getAllNodesOfNode(focusedNode).map(node => node.id)
 
     const additionalIds: string[] = []
-    if (graphService.isNotConnected(focusedNode)) {
-      graphService.getAllEdges().forEach(edge => {
+    if (this.graphService.isNotConnected(focusedNode)) {
+      this.graphService.getAllEdges().forEach(edge => {
         if (allInnerNodeIds.includes(edge.sourceId)) {
           additionalIds.push(edge.targetId)
         }
@@ -30,8 +30,9 @@ export class NodeFocusser {
       })
     }
 
-    const nodeIdsToKeep = _.union(neighbourNodeIds, allInnerNodeIds, additionalIds)
+    const nodeIdsToKeep = _.union([ focusedNode.id ], neighbourNodeIds, allInnerNodeIds, additionalIds)
 
-    return graphService.reduce(nodeIdsToKeep)
+    return this.graphService.reduce(nodeIdsToKeep)
   }
+
 }

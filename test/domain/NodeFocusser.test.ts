@@ -3,7 +3,7 @@ import { GraphService } from '../../src/domain/service'
 import { NodeFocusser } from '../../src/domain/NodeFocusser'
 
 test('node is focused', () => {
-  let graph: Node = Node.ofRawNode({
+  const graph: Node = Node.ofRawNode({
     id: 'test-graph',
     nodes: [
       { id: 'a' },
@@ -28,9 +28,9 @@ test('node is focused', () => {
     ]
   })
 
-  let nodeFocusser = new NodeFocusser()
+  const nodeFocusser = new NodeFocusser(new GraphService(graph))
 
-  let expectedGraph: Node = Node.ofRawNode({
+  const expectedGraph: Node = Node.ofRawNode({
     id: 'test-graph',
     nodes: [
       { id: 'a' },
@@ -57,7 +57,7 @@ test('node is focused', () => {
 })
 
 test('when a node with no edges is focused then outside nodes with edges to inside nodes are added', () => {
-  let graph: Node = Node.ofRawNode({
+  const graph: Node = Node.ofRawNode({
     id: 'test-graph',
     nodes: [
       { id: 'a' },
@@ -79,9 +79,9 @@ test('when a node with no edges is focused then outside nodes with edges to insi
     ]
   })
 
-  let nodeFocusser = new NodeFocusser()
+  const nodeFocusser = new NodeFocusser(new GraphService(graph))
 
-  let expectedGraph: Node = Node.ofRawNode({
+  const expectedGraph: Node = Node.ofRawNode({
     id: 'test-graph',
     nodes: [
       { id: 'a' },
