@@ -3,14 +3,7 @@ import { render } from 'react-dom'
 import { Route, Link, match, RouteComponentProps } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import * as model from '../domain/model'
-import styled from 'styled-components'
-
-const StyledNode = styled.div`
-  padding: 0.1em 0.25em;
-  background: transparent;
-  color: black;
-  border: 1.5px solid black;
-`
+import styled, { css } from 'styled-components'
 
 export interface NodeProps extends RouteComponentProps<any> {
   x: number
@@ -18,14 +11,15 @@ export interface NodeProps extends RouteComponentProps<any> {
   width: number
   height: number
   node: model.Node
+  groupingNode: boolean
 }
 
 export const Node = withRouter((props: NodeProps) => {
   const urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
-  const color = props.node.getProp('color', 'white')
+  const color = props.node.getProp('color', 'lightgrey')
 
   return (
-    <StyledNode
+    <div
         key={props.node.id}
         style={{
           position: 'absolute',
@@ -37,12 +31,11 @@ export const Node = withRouter((props: NodeProps) => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          fontSize: 16,
-          fontFamily: 'Roboto, sans-serif'
+          border: '1px solid black'
         }}
     >
       <Link to={urlForFocussingNode}>{props.node.id}</Link>
-    </StyledNode>
+    </div>
   )
 })
 
