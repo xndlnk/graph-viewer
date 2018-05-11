@@ -13,9 +13,8 @@ export interface NodeProps extends RouteComponentProps<any> {
 }
 
 export const Node = withRouter((props: NodeProps) => {
-  let urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
-
-  let color = props.node.getProp('color', 'lightgrey')
+  const urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
+  const color = props.node.getProp('color', 'lightgrey')
 
   return (
     <div
@@ -39,13 +38,13 @@ export const Node = withRouter((props: NodeProps) => {
   )
 })
 
-function getUrlForFocussingNode(matchUrl: string, nodeId: string) {
-  let focusUrlPath = `/focus/${nodeId}`
+function getUrlForFocussingNode(url: string, nodeId: string) {
+  const focusUrlPath = `/focus/${nodeId}`
 
-  let matchResult = matchUrl.match(/\/graph\/(\w+)/)
+  const matchResult = url.match(/\/graph\/(\w+)/)
   if (matchResult) {
     return matchResult[0] + focusUrlPath
   } else {
-    return matchUrl + focusUrlPath
+    return url + focusUrlPath
   }
 }
