@@ -92,12 +92,12 @@ export class GraphService {
             return acc
           }, [])
 
-        return new Node(node.id, reducedChildren, reducedEdges)
+        return new Node(node.id, reducedChildren, reducedEdges, node.getProps())
       }
     }
 
     if (idsToKeep.includes(node.id)) {
-      return new Node(node.id, [], [])
+      return new Node(node.id, [], [], node.getProps())
     } else {
       return null
     }
