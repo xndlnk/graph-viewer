@@ -1,11 +1,13 @@
-import * as legacyGraph from './realGraphLegacy'
+import * as largeGraphLegacy from './largeGraphLegacy'
 import * as model from '../domain/model'
 
-export const systemNode: model.RawNode = convertLegacySystemToNode(legacyGraph.graph)
+const largeGraphRaw: model.RawNode = convertLegacySystemToNode(largeGraphLegacy.graph, 1)
+export const largeGraph: model.Node = model.Node.ofRawNode(largeGraphRaw)
 
-function convertLegacySystemToNode(system: legacyGraph.System): model.RawNode {
+function convertLegacySystemToNode(system: largeGraphLegacy.System, level: number): model.RawNode {
+  let name = level === 2 ? 'cabinet_' + system.name : system.name
   let node: model.RawNode = {
-    id: system.name
+    id: name
   }
 
   node.nodes = []
@@ -13,7 +15,7 @@ function convertLegacySystemToNode(system: legacyGraph.System): model.RawNode {
     node.nodes.push(convertServiceToNode(service))
 
     system.subSystems.forEach((subSystem) => {
-      node.nodes.push(convertLegacySystemToNode(subSystem))
+      node.nodes.push(convertLegacySystemToNode(subSystem, level + 1))
     })
   })
 
@@ -25,7 +27,7 @@ function convertLegacySystemToNode(system: legacyGraph.System): model.RawNode {
   return node
 }
 
-function convertServiceToNode(service: legacyGraph.Service): model.RawNode {
+function convertServiceToNode(service: largeGraphLegacy.Service): model.RawNode {
   let node: model.RawNode = {
     id: service.name
   }
@@ -38,7 +40,7 @@ function convertServiceToNode(service: legacyGraph.Service): model.RawNode {
   return node
 }
 
-function convertLinkToEdge(link: legacyGraph.Link): model.RawEdge {
+function convertLinkToEdge(link: largeGraphLegacy.Link): model.RawEdge {
   return {
     sourceId: link.sourceName,
     targetId: link.targetName,

@@ -99,7 +99,9 @@ function setTopLevelNodeAsParentForSecondLevelNodes(dagreGraph: dagre.graphlib.G
     .filter(node => node.hasNodes())
     .forEach(topNode => {
       topNode.getNodes().forEach(secondNode => {
-        dagreGraph.setParent(secondNode.id, topNode.id)
+        if (secondNode.id !== topNode.id) {
+          dagreGraph.setParent(secondNode.id, topNode.id)
+        }
       })
     })
 }

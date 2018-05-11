@@ -11,7 +11,6 @@ export interface NodeProps extends RouteComponentProps<any> {
   width: number
   height: number
   node: model.Node
-  groupingNode: boolean
 }
 
 export const Node = withRouter((props: NodeProps) => {
