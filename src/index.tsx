@@ -11,8 +11,6 @@ import { simpleGraph } from './example-graphs/simpleGraph'
 import { largeGraph } from './example-graphs/largeGraph'
 
 const App = () => {
-  console.log(JSON.stringify(largeGraph, null, 2))
-
   return (
     <Router>
       <div>
