@@ -76,8 +76,8 @@ function convertToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
     dagreGraph.setEdge(edge.sourceId, edge.targetId)
   })
 
-  dagreGraph.graph().nodesep = 30
-  dagreGraph.graph().edgesep = 15
+  // dagreGraph.graph().nodesep = 30
+  // dagreGraph.graph().edgesep = 15
   dagreGraph.graph().ranksep = 90
   dagreGraph.graph().ranker = 'tight-tree'
 
