@@ -24,6 +24,12 @@ function convertLegacySystemToNode(system: largeGraphLegacy.System, level: numbe
     node.edges.push(convertLinkToEdge(link))
   })
 
+  if (level === 2) {
+    node.props = {
+      color: 'rgba(255, 0, 0, 0.2)'
+    }
+  }
+
   return node
 }
 
