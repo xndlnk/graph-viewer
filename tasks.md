@@ -5,13 +5,17 @@
 
 ## Allow to play with different layouters and renderers
 
-| state  | layouter | renderer | evaluation                   |
-|--------|----------|----------|------------------------------|
-| done   | dagre    | react    | not so good for large graphs |
-| open   | viz.js   | svg      | |
-| open   | viz.js   | react    | |
-| open   | dagre    | dagre-d3 | |
-| open   | webcola  | d3       | |
+### Currently supported
+
+- dagre/react
+
+### TODO
+
+- viz.js/svg: viz.js does not work with parcel, only webpack seems to be working
+- viz.js/react
+- viz.js/d3
+- dagre/d3
+- webcola/d3
 
 ### Links
 
