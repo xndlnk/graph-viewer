@@ -15,7 +15,7 @@ export interface NodeProps extends RouteComponentProps<any> {
 
 export const Node = withRouter((props: NodeProps) => {
   const urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
-  const color = props.node.getProp('color', 'lightgrey')
+  const color = props.node.hasNodes() ? 'rgba(255, 0, 0, 0.2)' : 'lightgrey'
 
   return (
     <div

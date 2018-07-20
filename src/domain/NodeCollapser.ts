@@ -1,6 +1,4 @@
-import * as _ from 'lodash'
 import { Node, Edge } from './model'
-import { GraphService } from './service'
 
 export class NodeCollapser {
 
@@ -12,11 +10,11 @@ export class NodeCollapser {
       let collapsedNodes = graph.getNodes()
         .map(node => {
           let nodeCopy = JSON.parse(JSON.stringify(node))
-          return new Node(nodeCopy.id, [], [], nodeCopy.props)
+          return new Node(nodeCopy.id, nodeCopy.name, nodeCopy.type, [], [], nodeCopy.properties)
         })
 
       let graphCopy = JSON.parse(JSON.stringify(graph))
-      return new Node(graphCopy.id, collapsedNodes, redirectedEdges, graphCopy.props)
+      return new Node(graphCopy.id, graphCopy.name, graphCopy.type, collapsedNodes, redirectedEdges, graphCopy.properties)
     } else {
       return graph
     }

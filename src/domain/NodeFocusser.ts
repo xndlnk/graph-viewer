@@ -1,5 +1,5 @@
 import * as _ from 'lodash'
-import { Node, Edge } from './model'
+import { Node } from './model'
 import { GraphService } from './service'
 
 export class NodeFocusser {

@@ -1,14 +1,17 @@
-export interface RawNode {
+export interface INode {
   id: string
-  nodes?: RawNode[]
-  edges?: RawEdge[]
-  props?: Props
+  name?: string
+  type?: string
+  nodes?: INode[]
+  edges?: IEdge[]
+  properties?: Props
 }
 
-export interface RawEdge {
+export interface IEdge {
   sourceId: string
   targetId: string
-  props?: Props
+  type?: string
+  properties?: Props
 }
 
 export interface Props {
@@ -17,23 +20,27 @@ export interface Props {
 
 export class Node {
   public readonly id: string
+  public readonly name: string
+  public readonly type: string
 
   private nodes: Node[]
   private edges: Edge[]
-  private props: Props
+  private properties: Props
 
-  constructor(id: string, nodes: Node[], edges: Edge[], props?: Props) {
+  constructor(id: string, name: string, type: string, nodes: Node[], edges: Edge[], properties?: Props) {
     this.id = id
+    this.name = name
+    this.type = type
     this.nodes = nodes ? nodes : []
     this.edges = edges ? edges : []
-    this.props = props
+    this.properties = properties || {}
   }
 
-  static ofRawNode(rawNode: RawNode): Node {
+  static ofRawNode(rawNode: INode): Node {
     let nodes = rawNode.nodes ? rawNode.nodes.map(node => Node.ofRawNode(node)) : []
     let edges = rawNode.edges ? rawNode.edges.map(edge => Edge.ofRawEdge(edge)) : []
-    let props = rawNode.props ? JSON.parse(JSON.stringify(rawNode.props)) : undefined
-    return new Node(rawNode.id, nodes, edges, props)
+    let properties = rawNode.properties ? JSON.parse(JSON.stringify(rawNode.properties)) : {}
+    return new Node(rawNode.id, rawNode.name, rawNode.type, nodes, edges, properties)
   }
 
   deepResolveNodeReferences() {
@@ -45,7 +52,7 @@ export class Node {
   }
 
   getLabel(): string {
-    return this.props.label ? this.props.label : this.id
+    return this.properties.label ? this.properties.label : this.id
   }
 
   getNodes(): Node[] {
@@ -65,12 +72,16 @@ export class Node {
   }
 
   getProps(): Props {
-    return this.props
+    return this.properties
   }
 
   getProp(propName: string, alternativeValue: any): any {
-    let value = this.props ? this.props[propName] : undefined
+    let value = this.properties ? this.properties[propName] : undefined
     return value ? value : alternativeValue
+  }
+
+  addProp(propName: string, value: any): any {
+    this.properties[propName] = value
   }
 }
 
@@ -82,16 +93,16 @@ export class Edge {
   private target: Node = null
   private kind?: string
 
-  private props: Props
+  private properties: Props
 
-  constructor(sourceId: string, targetId: string, props?: Props) {
+  constructor(sourceId: string, targetId: string, properties?: Props) {
     this.sourceId = sourceId
     this.targetId = targetId
-    this.props = props
+    this.properties = properties || {}
   }
 
-  static ofRawEdge(rawEdge: RawEdge): Edge {
-    let props = rawEdge.props ? JSON.parse(JSON.stringify(rawEdge.props)) : undefined
-    return new Edge(rawEdge.sourceId, rawEdge.targetId, props)
+  static ofRawEdge(rawEdge: IEdge): Edge {
+    let properties = rawEdge.properties ? JSON.parse(JSON.stringify(rawEdge.properties)) : {}
+    return new Edge(rawEdge.sourceId, rawEdge.targetId, properties)
   }
 }

@@ -16,7 +16,7 @@ test('node is focused', () => {
         edges: [
           { sourceId: 'c', targetId: 'd' }
         ],
-        props: {
+        properties: {
           bProp: 'b-prop-value'
         }
       },
@@ -43,7 +43,7 @@ test('node is focused', () => {
         edges: [
           { sourceId: 'c', targetId: 'd' }
         ],
-        props: {
+        properties: {
           bProp: 'b-prop-value'
         }
       }
