@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { render } from 'react-dom'
 import * as dagre from 'dagre'
+import * as model from '../domain/model'
 
 interface EdgeProps {
   arrangedEdge: dagre.GraphEdge
+  edge: model.Edge
 }
 
 export const Edge = (props: EdgeProps) => {
@@ -11,7 +13,7 @@ export const Edge = (props: EdgeProps) => {
 
   return (
     <polyline
-      key={polyLinePoints}
+      key={props.edge.sourceId + '-' + props.edge.targetId}
       points={polyLinePoints}
       style={{
         fill: 'none',

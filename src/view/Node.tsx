@@ -3,36 +3,59 @@ import { render } from 'react-dom'
 import { Route, Link, match, RouteComponentProps } from 'react-router-dom'
 import { withRouter } from 'react-router'
 import * as model from '../domain/model'
+import { NodeLayout, Layout } from './layout/layoutModel'
 import styled, { css } from 'styled-components'
+import { Edge } from './Edge'
 
 export interface NodeProps extends RouteComponentProps<any> {
-  x: number
-  y: number
-  width: number
-  height: number
+  graphLayout: Layout
+  parentNode: model.Node
   node: model.Node
 }
 
-export const Node = withRouter((props: NodeProps) => {
+// TODO: use class
+export const Node: any = withRouter((props: NodeProps) => {
   const urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
-  const color = props.node.hasNodes() ? 'rgba(255, 0, 0, 0.2)' : 'bg-light-yellow'
+  const color = props.node.hasNodes() ? 'rgba(255, 241, 169, 0.5)' : '#fbf1a9'
+  const nodeLayout = props.graphLayout.getNodeLayout(props.node.id)
+
+  let left = nodeLayout.x - nodeLayout.width / 2
+  let top = nodeLayout.y - nodeLayout.height / 2
+
+  if (props.parentNode) {
+    const parentNodeLayout = props.graphLayout.getNodeLayout(props.parentNode.id)
+    left = left - (parentNodeLayout.x - parentNodeLayout.width / 2)
+    top = top - (parentNodeLayout.y - parentNodeLayout.height / 2)
+  }
 
   return (
     <div
-        className="bg-light-yellow ba f4"
+        className="ba f4"
         key={props.node.id}
         style={{
           position: 'absolute',
-          left: props.x - props.width / 2,
-          top: props.y - props.height / 2,
-          height: props.height,
-          width: props.width,
+          left: left,
+          top: top,
+          backgroundColor: color,
+          height: nodeLayout.height,
+          width: nodeLayout.width,
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center'
         }}
     >
       <Link className="link underline dark-blue hover-orange" to={urlForFocussingNode}>{props.node.name}</Link>
+
+      {
+        props.node.getNodes().map(node => (
+            <Node
+              node={node}
+              parentNode={props.node}
+              graphLayout={props.graphLayout}
+            />
+          )
+        )
+      }
     </div>
   )
 })

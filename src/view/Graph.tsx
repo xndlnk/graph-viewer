@@ -18,8 +18,11 @@ export class Graph extends React.Component<GraphProps, any> {
   render() {
     const layout = new DagreLayout(this.props.graph)
 
+    // TODO: use Node component for graph node
+    // INFO: svg edges have to be included all at once here
     return (
       <div
+        key="graph"
         style={{
           width: layout.getGraphWith(),
           height: layout.getGraphHeight(),
@@ -27,23 +30,18 @@ export class Graph extends React.Component<GraphProps, any> {
         }}
       >
         {
-          this.props.graph.getNodes().map(node => {
-            const nodeLayout = layout.getNodeLayout(node.id)
-            return (
+          this.props.graph.getNodes().map(node => (
               <Node
-                x={nodeLayout.x}
-                y={nodeLayout.y}
-                height={nodeLayout.height}
-                width={nodeLayout.width}
                 node={node}
+                graphLayout={layout}
               />
             )
-          })
+          )
         }
-        <svg width={layout.getGraphWith()} height={layout.getGraphHeight()}>
+        <svg width={layout.getGraphWith() + 10} height={layout.getGraphHeight() + 10}>
           {
-            this.props.graph.getEdges().map(edge => (
-              <Edge arrangedEdge={layout.getEdgeLayout(edge.sourceId, edge.targetId)} />
+            this.props.graph.getAllEdges().map(edge => (
+              <Edge edge={edge} arrangedEdge={layout.getEdgeLayout(edge.sourceId, edge.targetId)} />
             ))
           }
         </svg>

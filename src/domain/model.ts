@@ -1,3 +1,5 @@
+import * as _ from 'lodash'
+
 export interface INode {
   id: string
   name?: string
@@ -65,6 +67,10 @@ export class Node {
 
   getEdges(): Edge[] {
     return this.edges
+  }
+
+  getAllEdges(): Edge[] {
+    return _.union(this.edges, _.flatten(this.nodes.map(node => node.edges)))
   }
 
   hasEdges(): boolean {
