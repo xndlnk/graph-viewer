@@ -33,7 +33,7 @@ export const Node = withRouter((props: NodeProps) => {
           border: '1px solid black'
         }}
     >
-      <Link to={urlForFocussingNode}>{props.node.id}</Link>
+      <Link to={urlForFocussingNode}>{props.node.name}</Link>
     </div>
   )
 })
