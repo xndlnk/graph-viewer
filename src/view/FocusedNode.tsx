@@ -10,7 +10,7 @@ export const FocusedNode = (props: FocusedNodeProps) => {
   const focusedNode = graphService.findNode(props.focusedNodeId)
 
   const nodeFocussor = new NodeFocusser(graphService)
-  const focusedGraph = nodeFocussor.focusNode(props.graph, focusedNode)
+  const focusedGraph = nodeFocussor.focusNode(focusedNode)
 
   return (
     <Graph graph={focusedGraph} />

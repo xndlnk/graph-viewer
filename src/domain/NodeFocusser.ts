@@ -10,11 +10,11 @@ export class NodeFocusser {
     this.graphService = graphService
   }
 
-  focusNodeById(graph: Node, focusedNodeId: string): Node {
-    return this.focusNode(graph, this.graphService.findNode(focusedNodeId))
+  focusNodeById(focusedNodeId: string): Node {
+    return this.focusNode(this.graphService.findNode(focusedNodeId))
   }
 
-  focusNode(graph: Node, focusedNode: Node): Node {
+  focusNode(focusedNode: Node): Node {
     const neighbourNodeIds = this.graphService.getNeighbourNodeIds(focusedNode.id)
     const allInnerNodeIds = this.graphService.getAllNodesOfNode(focusedNode).map(node => node.id)
 

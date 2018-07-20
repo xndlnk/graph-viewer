@@ -53,7 +53,7 @@ test('node is focused', () => {
     ]
   })
 
-  expect(nodeFocusser.focusNodeById(graph, 'b')).toEqual(expectedGraph)
+  expect(nodeFocusser.focusNodeById('b')).toEqual(expectedGraph)
 })
 
 test('when a node with no edges is focused then outside nodes with edges to inside nodes are added', () => {
@@ -101,5 +101,5 @@ test('when a node with no edges is focused then outside nodes with edges to insi
     ]
   })
 
-  expect(nodeFocusser.focusNodeById(graph, 'b')).toEqual(expectedGraph)
+  expect(nodeFocusser.focusNodeById('b')).toEqual(expectedGraph)
 })

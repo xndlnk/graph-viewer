@@ -91,7 +91,6 @@ export class Edge {
 
   private source: Node = null
   private target: Node = null
-  private kind?: string
 
   private properties: Props
 
