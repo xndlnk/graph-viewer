@@ -1,43 +1,14 @@
 import * as dagre from 'dagre'
-import * as model from '../domain/model'
-import { GraphService } from '../domain/service'
+import * as model from '../../domain/model'
+import { Layout, NodeLayout, EdgeLayout } from './layoutModel'
+import { GraphService } from '../../domain/service'
 import * as _ from 'lodash'
 
-export class DagreLayout {
+export class DagreLayout implements Layout {
   private dagreGraph: dagre.graphlib.Graph
 
   constructor(private graph: model.Node) {
-  }
-
-  layout() {
-    const dagreGraph = new dagre.graphlib.Graph({ compound: true })
-
-    dagreGraph.setGraph({})
-    dagreGraph.setDefaultEdgeLabel(() => ({}))
-
-    this.addNodes(dagreGraph, this.graph.getNodes())
-
-    let secondLevelNodes = this.getSecondLevelNodes(this.graph)
-    this.addNodes(dagreGraph, secondLevelNodes)
-    this.setTopLevelNodeAsParentForSecondLevelNodes(this.dagreGraph, this.graph)
-
-    let graphService = new GraphService(this.graph)
-
-    graphService.getAllEdges().forEach(edge => {
-      this.dagreGraph.setEdge(edge.sourceId, edge.targetId)
-    })
-
-    // dagreGraph.graph().nodesep = 30
-    // dagreGraph.graph().edgesep = 15
-    dagreGraph.graph().ranksep = 90
-    dagreGraph.graph().ranker = 'tight-tree'
-
-    dagre.layout(dagreGraph)
-
-    let arrangedNodes = dagreGraph.nodes().map(id => dagreGraph.node(id))
-    let arrangedEdges = dagreGraph.edges().map(id => dagreGraph.edge(id))
-
-    this.dagreGraph = dagreGraph
+    this.layout()
   }
 
   getGraphWith(): number {
@@ -54,6 +25,34 @@ export class DagreLayout {
 
   getEdgeLayout(sourceId: string, targetId: string): dagre.GraphEdge {
     return this.dagreGraph.edge(sourceId, targetId)
+  }
+
+  private layout() {
+    const dagreGraph = new dagre.graphlib.Graph({ compound: true })
+
+    dagreGraph.setGraph({})
+    dagreGraph.setDefaultEdgeLabel(() => ({}))
+
+    this.addNodes(dagreGraph, this.graph.getNodes())
+
+    let secondLevelNodes = this.getSecondLevelNodes(this.graph)
+    this.addNodes(dagreGraph, secondLevelNodes)
+    this.setTopLevelNodeAsParentForSecondLevelNodes(dagreGraph, this.graph)
+
+    let graphService = new GraphService(this.graph)
+
+    graphService.getAllEdges().forEach(edge => {
+      dagreGraph.setEdge(edge.sourceId, edge.targetId)
+    })
+
+    // dagreGraph.graph().nodesep = 30
+    // dagreGraph.graph().edgesep = 15
+    dagreGraph.graph().ranksep = 90
+    dagreGraph.graph().ranker = 'tight-tree'
+
+    dagre.layout(dagreGraph)
+
+    this.dagreGraph = dagreGraph
   }
 
   private addNodes(dagreGraph: dagre.graphlib.Graph, nodes: model.Node[]) {

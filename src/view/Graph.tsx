@@ -4,7 +4,7 @@ import { Node } from './Node'
 import { Edge } from './Edge'
 import * as model from '../domain/model'
 import { withRouter } from 'react-router'
-import { DagreLayout } from './DagreLayout'
+import { DagreLayout } from './layout/DagreLayout'
 
 export interface GraphProps {
   graph: model.Node
@@ -17,7 +17,6 @@ export class Graph extends React.Component<GraphProps, any> {
 
   render() {
     const layout = new DagreLayout(this.props.graph)
-    layout.layout()
 
     return (
       <div
