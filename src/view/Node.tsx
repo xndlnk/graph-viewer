@@ -15,25 +15,24 @@ export interface NodeProps extends RouteComponentProps<any> {
 
 export const Node = withRouter((props: NodeProps) => {
   const urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
-  const color = props.node.hasNodes() ? 'rgba(255, 0, 0, 0.2)' : 'lightgrey'
+  const color = props.node.hasNodes() ? 'rgba(255, 0, 0, 0.2)' : 'bg-light-yellow'
 
   return (
     <div
+        className="bg-light-yellow ba f4"
         key={props.node.id}
         style={{
           position: 'absolute',
           left: props.x - props.width / 2,
           top: props.y - props.height / 2,
-          background: color,
           height: props.height,
           width: props.width,
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
-          border: '1px solid black'
+          alignItems: 'center'
         }}
     >
-      <Link to={urlForFocussingNode}>{props.node.name}</Link>
+      <Link className="link underline dark-blue hover-orange" to={urlForFocussingNode}>{props.node.name}</Link>
     </div>
   )
 })

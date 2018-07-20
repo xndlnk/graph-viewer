@@ -16,7 +16,7 @@ export const Edge = (props: EdgeProps) => {
       style={{
         fill: 'none',
         stroke: 'black',
-        strokeWidth: 1
+        strokeWidth: 1.25
       }}
     />
   )
