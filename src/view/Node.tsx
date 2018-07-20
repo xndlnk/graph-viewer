@@ -44,7 +44,7 @@ export const Node: any = withRouter((props: NodeProps) => {
           alignItems: 'center'
         }}
     >
-      <Link className="link underline dark-blue hover-orange" to={urlForFocussingNode}>{props.node.name}</Link>
+      <Link className="link underline-hover dark-blue hover-orange" to={urlForFocussingNode}>{props.node.name}</Link>
 
       {
         props.node.getNodes().map(node => (
