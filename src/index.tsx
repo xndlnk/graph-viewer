@@ -23,8 +23,8 @@ const App = () => {
   return (
     <Router>
       <div className="sans-serif">
-        <div className="bg-black white f3">
-          <ul className="list pa3">
+        <div className="bg-black white pa3">
+          <ul className="list f3">
             <li><b>Simple:</b> <Link className={darkLinkStyling} to="/graph/simple">Complete</Link>, <Link className={darkLinkStyling} to="/graph/simple/collapsed">Collapsed</Link></li>
             <li><b>Large:</b> <Link className={darkLinkStyling} to="/graph/large">Complete</Link>, <Link className={darkLinkStyling} to="/graph/large/collapsed">Collapsed</Link></li>
           </ul>
