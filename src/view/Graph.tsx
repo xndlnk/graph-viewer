@@ -64,11 +64,9 @@ function convertToDagreGraph(graph: model.Node): dagre.graphlib.Graph {
   dagreGraph.setGraph({})
   dagreGraph.setDefaultEdgeLabel(() => ({}))
 
-  graph.getNodes().forEach(node => node.addProp('level', 1))
   addNodes(dagreGraph, graph.getNodes())
 
   let secondLevelNodes = getSecondLevelNodes(graph)
-  secondLevelNodes.forEach(node => node.addProp('level', 2))
   addNodes(dagreGraph, secondLevelNodes)
   setTopLevelNodeAsParentForSecondLevelNodes(dagreGraph, graph)
 
