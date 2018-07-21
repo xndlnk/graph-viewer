@@ -18,8 +18,9 @@ export class Graph extends React.Component<GraphProps, any> {
   render() {
     const layout = new DagreLayout(this.props.graph)
 
-    // TODO: use Node component for graph node
-    // INFO: svg edges have to be included all at once here
+    // TODO: use Node component for Node-parts of the graph to reduce duplication
+    // INFO: svg edges have to be included all at once here.
+    // using higher z-index for svg is not working because div-elements are not accessible anymore.
     return (
       <div
         key="graph"
