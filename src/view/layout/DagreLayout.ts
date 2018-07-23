@@ -8,7 +8,6 @@ export class DagreLayout implements Layout {
   private dagreGraph: dagre.graphlib.Graph
 
   constructor(private graph: model.Node) {
-    this.layout()
   }
 
   getGraphWith(): number {
@@ -27,7 +26,7 @@ export class DagreLayout implements Layout {
     return this.dagreGraph.edge(sourceId, targetId)
   }
 
-  private layout() {
+  async computeLayout(): Promise<Layout> {
     const dagreGraph = new dagre.graphlib.Graph({ compound: true })
 
     dagreGraph.setGraph({})
@@ -53,6 +52,8 @@ export class DagreLayout implements Layout {
     dagre.layout(dagreGraph)
 
     this.dagreGraph = dagreGraph
+
+    return new Promise<Layout>(resolve => resolve(this))
   }
 
   private addNodes(dagreGraph: dagre.graphlib.Graph, nodes: model.Node[]) {

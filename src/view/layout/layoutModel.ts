@@ -1,4 +1,5 @@
 export interface Layout {
+  computeLayout(): Promise<Layout>
   getGraphWith(): number
   getGraphHeight(): number
   getNodeLayout(id: string): NodeLayout
