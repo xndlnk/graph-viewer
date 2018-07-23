@@ -24,6 +24,11 @@ export class Graph extends React.Component<GraphProps, GraphState> {
   }
 
   async componentDidMount() {
+    // INFO: this is not needed, just playing
+    await new Promise(function(resolve) {
+      setTimeout(resolve, 50)
+    })
+
     const layout = new DagreLayout(this.props.graph)
     const graphLayout = await layout.computeLayout()
     this.setState({ graphLayout: graphLayout })
@@ -32,7 +37,7 @@ export class Graph extends React.Component<GraphProps, GraphState> {
   render() {
     if (!this.state.graphLayout) {
       return (
-        <div>Loading ...</div>
+        <h1>Loading ...</h1>
       )
     }
     const layout = this.state.graphLayout
