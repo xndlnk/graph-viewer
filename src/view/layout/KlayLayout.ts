@@ -3,7 +3,7 @@ import { Layout, NodeLayout, EdgeLayout } from './layoutModel'
 const klay = require('klayjs')
 
 export class KlayLayout implements Layout {
-  private graphWithLayout: any
+  private graphWithLayout: KlayNode
 
   constructor(private graph: model.Node) {
   }
@@ -14,7 +14,7 @@ export class KlayLayout implements Layout {
     return new Promise<Layout>(resolve => {
       klay.layout({
         graph: klayGraph,
-        success: (graphWithLayout: any) => {
+        success: (graphWithLayout: KlayNode) => {
           this.graphWithLayout = graphWithLayout
           resolve(this)
         }
@@ -54,9 +54,9 @@ export class KlayLayout implements Layout {
   }
 
   getEdgeLayout(sourceId: string, targetId: string): EdgeLayout {
-    // TODO: search for nested edges
-    const edge: KlayEdge = this.graphWithLayout.edges.find((edge: any) => edge.source === sourceId && edge.target === targetId)
+    const edge: KlayEdge = this.deepFindEdge(this.graphWithLayout, sourceId, targetId)
     if (!edge || !edge.sourcePoint || !edge.targetPoint) {
+      console.log('cannot find edge ' + sourceId + '-' + targetId)
       return {
         points: []
       }
@@ -82,6 +82,23 @@ export class KlayLayout implements Layout {
     }
   }
 
+  deepFindEdge(node: KlayNode, sourceId: string, targetId: string): KlayEdge {
+    if (node.edges) {
+      const edge: KlayEdge = node.edges.find((edge: KlayEdge) => edge.source === sourceId && edge.target === targetId)
+      if (edge) {
+        return edge
+      }
+    }
+
+    if (node.children) {
+      return node.children
+        .map(childNode => this.deepFindEdge(childNode, sourceId, targetId))
+        .find(edge => edge != null)
+    }
+
+    return null
+  }
+
   /** searches for a parent node that is at least on the second level of the graph, i.e. nested in the root node */
   deepFindNestedParentNode(nodeIdToSearch: string): model.Node {
     return this.graph.getNodes()
@@ -102,10 +119,16 @@ class KlayModelAdapter {
     return {
       id: 'root',
       properties: {
-        'algorithm': 'layered',
+        algorithm: 'de.cau.cs.kieler.klay.layered',
+        spacing: 20,
+        layoutHierarchy: true,
+        intCoordinates: true,
         'direction': 'DOWN',
         'edgeRouting': 'POLYLINE',
-        'layoutHierarchy': true
+        // 'mergeEdges': true,
+        'edgeSpacingFactor': 0.5,
+        'crossMin': 'LAYER_SWEEP',
+        thoroughness: 40
       },
       children: graph.getNodes().map(node => this.convertNode(node)),
       edges: graph.getEdges().map(edge => this.convertEdge(edge))
@@ -118,10 +141,16 @@ class KlayModelAdapter {
       width: 100,
       height: 40,
       properties: {
-        'algorithm': 'layered',
+        algorithm: 'de.cau.cs.kieler.klay.layered',
+        spacing: 20,
+        layoutHierarchy: true,
+        intCoordinates: true,
         'direction': 'DOWN',
         'edgeRouting': 'POLYLINE',
-        'layoutHierarchy': true
+        // 'mergeEdges': true,
+        'edgeSpacingFactor': 1,
+        'crossMin': 'LAYER_SWEEP',
+        thoroughness: 40
       }
     }
     if (node.hasNodes()) {
