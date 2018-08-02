@@ -1,6 +1,5 @@
 import * as model from '../../domain/model'
 import { Layout, NodeLayout, EdgeLayout } from './layoutModel'
-import * as _ from 'lodash'
 const klay = require('klayjs')
 
 export class KlayLayout implements Layout {
@@ -143,8 +142,6 @@ class KlayModelAdapter {
   }
 }
 
-// ----
-
 interface KlayNode {
   id: string,
   x?: number,
@@ -164,37 +161,3 @@ interface KlayEdge {
   targetPoint: {x: number, y: number}
   bendPoints: Array<{x: number, y: number}>
 }
-
-/* class ElkModelAdapter {
-  convertGraph(graph: model.Node): any {
-    return {
-      id: 'root',
-      layoutOptions: { 'elk.algorithm': 'layered' },
-      children: graph.getNodes().map(node => this.convertNode(node)),
-      edges: graph.getEdges().map(edge => this.convertEdge(edge))
-    }
-  }
-
-  convertNode(node: model.Node): ElkNode {
-    const elkNode: ElkNode = {
-      id: node.id,
-      width: 100,
-      height: 40
-    }
-    if (node.hasNodes()) {
-      elkNode.children = node.getNodes().map(node => this.convertNode(node))
-    }
-    if (node.hasEdges()) {
-      elkNode.edges = node.getEdges().map(edge => this.convertEdge(edge))
-    }
-    return elkNode
-  }
-
-  convertEdge(edge: model.Edge): any {
-    return {
-      id: edge.sourceId + '-' + edge.targetId,
-      source: edge.sourceId,
-      target: edge.targetId
-    }
-  }
-}*/
