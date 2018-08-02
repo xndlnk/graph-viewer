@@ -6,6 +6,7 @@ import * as model from '../domain/model'
 import { Layout } from './layout/layoutModel'
 import { withRouter } from 'react-router'
 import { DagreLayout } from './layout/DagreLayout'
+import { KlayLayout } from './layout/KlayLayout'
 
 export interface GraphProps {
   graph: model.Node
@@ -29,7 +30,7 @@ export class Graph extends React.Component<GraphProps, GraphState> {
       setTimeout(resolve, 50)
     })
 
-    const layout = new DagreLayout(this.props.graph)
+    const layout = new KlayLayout(this.props.graph)
     const graphLayout = await layout.computeLayout()
     this.setState({ graphLayout: graphLayout })
   }
@@ -41,6 +42,7 @@ export class Graph extends React.Component<GraphProps, GraphState> {
       )
     }
     const layout = this.state.graphLayout
+    // console.log(JSON.stringify(layout, null, 2))
 
     // INFO: svg edges have to be included all at once here.
     // using higher z-index for svg is not working because div-elements are not accessible anymore.

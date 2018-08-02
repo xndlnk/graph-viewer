@@ -18,15 +18,17 @@ export const Node: any = withRouter((props: NodeProps) => {
   const urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
   const color = props.node.hasNodes() ? 'rgba(255, 241, 169, 0.5)' : '#fbf1a9'
   const nodeLayout = props.graphLayout.getNodeLayout(props.node.id)
+  if (nodeLayout == null) console.log('cannot find ' + props.node.id)
 
-  let left = nodeLayout.x - nodeLayout.width / 2
-  let top = nodeLayout.y - nodeLayout.height / 2
+  let left = nodeLayout.x // - nodeLayout.width / 2
+  let top = nodeLayout.y // - nodeLayout.height / 2
 
-  if (props.parentNode) {
+  /*if (props.parentNode) {
     const parentNodeLayout = props.graphLayout.getNodeLayout(props.parentNode.id)
+    if (parentNodeLayout == null) console.log('cannot find ' + props.parentNode.id)
     left = left - (parentNodeLayout.x - parentNodeLayout.width / 2)
     top = top - (parentNodeLayout.y - parentNodeLayout.height / 2)
-  }
+  }*/
 
   return (
     <div

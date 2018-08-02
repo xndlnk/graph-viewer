@@ -49,6 +49,23 @@ export class Node {
     // TODO:
   }
 
+  deepFindParendNodeById(id: string): Node {
+    const parentNode = this.findParentNodeById(id)
+    if (parentNode) {
+      return parentNode
+    } else {
+      return this.getNodes().map(node => node.deepFindParendNodeById(id)).find(parentNode => parentNode !== undefined)
+    }
+  }
+
+  findParentNodeById(id: string): Node {
+    if (this.getNodes().find(node => node.id === id)) {
+      return this
+    } else {
+      return undefined
+    }
+  }
+
   sameId(otherId: string): boolean {
     return this.id === otherId
   }

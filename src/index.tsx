@@ -1,6 +1,6 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
-import 'tachyons/css/tachyons.css'
+import './tachyons.css'
 import './index.css'
 import { SimpleGraph } from './view/SimpleGraph'
 import { Graph } from './view/Graph'
