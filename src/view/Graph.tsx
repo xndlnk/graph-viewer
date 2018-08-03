@@ -31,7 +31,7 @@ export class Graph extends React.Component<GraphProps, GraphState> {
     })
 
     // console.log('layouting graph ' + JSON.stringify(this.props.graph,null, 2))
-    const layout = new DagreLayout(this.props.graph)
+    const layout = new KlayLayout(this.props.graph)
     const graphLayout = await layout.computeLayout()
     this.setState({ graphLayout: graphLayout })
   }
