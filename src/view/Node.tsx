@@ -28,7 +28,7 @@ export const Node: any = withRouter((props: NodeProps) => {
       </div>
     )
   }
-  if (nodeLayout && !nodeLayout.x) {
+  if (nodeLayout && nodeLayout.x === undefined) {
     const errorMessage = 'x missing on node ' + props.node.id
     console.log(errorMessage)
     return (
@@ -38,29 +38,14 @@ export const Node: any = withRouter((props: NodeProps) => {
     )
   }
 
-  let left = nodeLayout.x
-  let top = nodeLayout.y
-
-  /*
-  this was needed for DagreLayout:
-  let left = nodeLayout.x - nodeLayout.width / 2
-  let top = nodeLayout.y - nodeLayout.height / 2
-
-  if (props.parentNode) {
-    const parentNodeLayout = props.graphLayout.getNodeLayout(props.parentNode.id)
-    if (parentNodeLayout == null) console.log('cannot find ' + props.parentNode.id)
-    left = left - (parentNodeLayout.x - parentNodeLayout.width / 2)
-    top = top - (parentNodeLayout.y - parentNodeLayout.height / 2)
-  }*/
-
   return (
     <div
         className="ba f4"
         key={props.node.id}
         style={{
           position: 'absolute',
-          left: left,
-          top: top,
+          left: nodeLayout.x,
+          top: nodeLayout.y,
           backgroundColor: color,
           height: nodeLayout.height,
           width: nodeLayout.width,

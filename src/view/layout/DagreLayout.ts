@@ -19,14 +19,33 @@ export class DagreLayout implements Layout {
   }
 
   getNodeLayout(id: string): dagre.Node {
-    return this.dagreGraph.node(id)
+    return this.adjustCoordinates(id, this.dagreGraph.node(id))
+  }
+
+  adjustCoordinates(nodeId: string, nodeLayout: dagre.Node): dagre.Node {
+    let x = nodeLayout.x - nodeLayout.width / 2
+    let y = nodeLayout.y - nodeLayout.height / 2
+
+    const parentId = this.dagreGraph.parent(nodeId)
+    if (parentId) {
+      const parentLayout = this.dagreGraph.node(parentId)
+      x = x - (parentLayout.x - parentLayout.width / 2)
+      y = y - (parentLayout.y - parentLayout.height / 2)
+    }
+
+    return {
+      x: x,
+      y: y,
+      width: nodeLayout.width,
+      height: nodeLayout.height
+    }
   }
 
   getEdgeLayout(sourceId: string, targetId: string): dagre.GraphEdge {
     return this.dagreGraph.edge(sourceId, targetId)
   }
 
-  async computeLayout(): Promise<Layout> {
+  async computeLayout(): Promise<Layout > {
     const dagreGraph = new dagre.graphlib.Graph({ compound: true })
 
     dagreGraph.setGraph({})
