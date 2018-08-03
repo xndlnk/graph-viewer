@@ -30,9 +30,14 @@ export class Graph extends React.Component<GraphProps, GraphState> {
       setTimeout(resolve, 50)
     })
 
+    // console.log('layouting graph ' + JSON.stringify(this.props.graph,null, 2))
     const layout = new KlayLayout(this.props.graph)
     const graphLayout = await layout.computeLayout()
     this.setState({ graphLayout: graphLayout })
+  }
+
+  componentWillUnmount() {
+    this.setState({ graphLayout: null })
   }
 
   render() {

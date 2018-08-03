@@ -18,12 +18,35 @@ export const Node: any = withRouter((props: NodeProps) => {
   const urlForFocussingNode = getUrlForFocussingNode(props.match.url, props.node.id)
   const color = props.node.hasNodes() ? 'rgba(255, 241, 169, 0.5)' : '#fbf1a9'
   const nodeLayout = props.graphLayout.getNodeLayout(props.node.id)
-  if (nodeLayout == null) console.log('cannot find ' + props.node.id)
 
-  let left = nodeLayout.x // - nodeLayout.width / 2
-  let top = nodeLayout.y // - nodeLayout.height / 2
+  if (nodeLayout == null) {
+    const errorMessage = 'cannot find layout for node ' + props.node.id + ' in layout: ' + JSON.stringify(props.graphLayout, null, 2)
+    console.log(errorMessage)
+    return (
+      <div>
+        error: cannot view present {props.node.id}
+      </div>
+    )
+  }
+  if (nodeLayout && !nodeLayout.x) {
+    const errorMessage = 'x missing on node ' + props.node.id
+    console.log(errorMessage)
+    return (
+      <div>
+        error: cannot view present {props.node.id}
+      </div>
+    )
+  }
 
-  /*if (props.parentNode) {
+  let left = nodeLayout.x
+  let top = nodeLayout.y
+
+  /*
+  this was needed for DagreLayout:
+  let left = nodeLayout.x - nodeLayout.width / 2
+  let top = nodeLayout.y - nodeLayout.height / 2
+
+  if (props.parentNode) {
     const parentNodeLayout = props.graphLayout.getNodeLayout(props.parentNode.id)
     if (parentNodeLayout == null) console.log('cannot find ' + props.parentNode.id)
     left = left - (parentNodeLayout.x - parentNodeLayout.width / 2)

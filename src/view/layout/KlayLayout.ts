@@ -46,9 +46,12 @@ export class KlayLayout implements Layout {
   findChild(id: string, currentNode: any): any {
     if (currentNode.id === id) return currentNode
     else if (currentNode.children) {
-      return currentNode.children
+      const result = currentNode.children
         .map((child: any) => this.findChild(id, child))
-        .find((child: any) => child != null)
+        .find((child: any) => child != null && child !== undefined)
+      if (result) {
+        return result
+      }
     }
     return null
   }
@@ -71,7 +74,6 @@ export class KlayLayout implements Layout {
 
     const nestedParentNode = this.deepFindNestedParentNode(sourceId)
     if (nestedParentNode) {
-      console.log('source ' + sourceId + ' has parent ' + nestedParentNode.id)
       return {
         points: this.getPointsAdjustedRelativeToParentNode(points, nestedParentNode.id)
       }
@@ -138,7 +140,7 @@ class KlayModelAdapter {
   convertNode(node: model.Node): KlayNode {
     const klayNode: KlayNode = {
       id: node.id,
-      width: 100,
+      width: 150,
       height: 40,
       properties: {
         algorithm: 'de.cau.cs.kieler.klay.layered',
@@ -148,7 +150,7 @@ class KlayModelAdapter {
         'direction': 'DOWN',
         'edgeRouting': 'POLYLINE',
         // 'mergeEdges': true,
-        'edgeSpacingFactor': 1,
+        'edgeSpacingFactor': 0.5,
         'crossMin': 'LAYER_SWEEP',
         thoroughness: 40
       }
