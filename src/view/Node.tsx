@@ -5,7 +5,7 @@ import { withRouter } from 'react-router'
 import * as model from '../domain/model'
 import { NodeLayout, Layout } from './layout/layoutModel'
 import styled, { css } from 'styled-components'
-import { Edge } from './Edge'
+import { Nodes } from './Nodes'
 
 export interface NodeProps {
   node: model.Node
@@ -50,17 +50,7 @@ export class Node extends React.Component<NodeProps, any> {
         }}
       >
         {content}
-        {
-          node.getNodes().map(node => (
-            <Node
-              key={node.id}
-              node={node}
-              graphLayout={graphLayout}
-              onClick={onClick}
-            />
-          )
-          )
-        }
+        <Nodes nodes={node.getNodes()} graphLayout={graphLayout} onClick={onClick}></Nodes>
       </div>
     )
   }

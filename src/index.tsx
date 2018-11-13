@@ -5,8 +5,6 @@ import './index.css'
 import { SimpleGraph } from './view/SimpleGraph'
 import { Graph } from './view/Graph'
 import { GraphLoader } from './view/GraphLoader'
-import { FocusedNode } from './view/FocusedNode'
-import { CollapsedNode } from './view/CollapsedNode'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import styled from 'styled-components'
 

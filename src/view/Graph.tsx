@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Node } from './Node'
+import { Nodes } from './Nodes'
 import { Edge } from './Edge'
 import * as model from '../domain/model'
 import { Layout } from './layout/layoutModel'
@@ -74,17 +74,9 @@ export class Graph extends React.Component<GraphProps, GraphState> {
           position: 'relative'
         }}
       >
-        {
-          this.state.graph.getNodes().map(node => (
-            <Node
-              key={node.id}
-              node={node}
-              graphLayout={layout}
-              onClick={this.focusGraphToNode}
-            />
-          )
-          )
-        }
+        <Nodes nodes={this.state.graph.getNodes()} graphLayout={layout}
+          onClick={this.focusGraphToNode}></Nodes>
+
         <svg width={layout.getGraphWith() + 10} height={layout.getGraphHeight() + 10}>
           {
             this.state.graph.getAllEdges().map(edge => (
