@@ -68,7 +68,6 @@ export class Graph extends React.Component<GraphProps, GraphState> {
     // using higher z-index for svg is not working because div-elements are not accessible anymore.
     return (
       <div
-        key="graph"
         style={{
           width: layout.getGraphWith(),
           height: layout.getGraphHeight(),
@@ -78,6 +77,7 @@ export class Graph extends React.Component<GraphProps, GraphState> {
         {
           this.state.graph.getNodes().map(node => (
             <Node
+              key={node.id}
               node={node}
               graphLayout={layout}
               onClick={this.focusGraphToNode}
@@ -88,7 +88,7 @@ export class Graph extends React.Component<GraphProps, GraphState> {
         <svg width={layout.getGraphWith() + 10} height={layout.getGraphHeight() + 10}>
           {
             this.state.graph.getAllEdges().map(edge => (
-              <Edge edge={edge} arrangedEdge={layout.getEdgeLayout(edge.sourceId, edge.targetId)} />
+              <Edge key={edge.sourceId + '-' + edge.targetId} edge={edge} arrangedEdge={layout.getEdgeLayout(edge.sourceId, edge.targetId)} />
             ))
           }
         </svg>

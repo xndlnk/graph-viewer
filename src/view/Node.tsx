@@ -53,6 +53,7 @@ export class Node extends React.Component<NodeProps, any> {
         {
           node.getNodes().map(node => (
             <Node
+              key={node.id}
               node={node}
               graphLayout={graphLayout}
               onClick={onClick}
