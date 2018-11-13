@@ -19,6 +19,8 @@ export interface GraphState {
 }
 
 export class Graph extends React.Component<GraphProps, GraphState> {
+  private stillMounted: boolean = false
+
   constructor(props: GraphProps) {
     super(props)
     this.state = {
@@ -46,13 +48,21 @@ export class Graph extends React.Component<GraphProps, GraphState> {
 
     const layout = new KlayLayout(this.state.graph)
     const graphLayout = await layout.computeLayout()
-    this.setState({ graphLayout: graphLayout })
+
+    if (this.stillMounted) {
+      this.setState({ graphLayout: graphLayout })
+    }
   }
 
   async componentDidMount() {
+    this.stillMounted = true
     if (!this.state.graphLayout) {
       this.computeLayout()
     }
+  }
+
+  componentWillUnmount() {
+    this.stillMounted = false
   }
 
   render() {

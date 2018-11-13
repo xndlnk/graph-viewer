@@ -6,11 +6,10 @@ import * as model from '../domain/model'
 import { NodeLayout, Layout } from './layout/layoutModel'
 import styled, { css } from 'styled-components'
 import { Nodes } from './Nodes'
+import { NodeViewProps } from './NodeViewProps'
 
-export interface NodeProps {
+export interface NodeProps extends NodeViewProps {
   node: model.Node
-  graphLayout: Layout
-  onClick?: (node: model.Node) => void
 }
 
 export class Node extends React.Component<NodeProps, any> {

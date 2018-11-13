@@ -2,23 +2,21 @@ import * as React from 'react'
 
 import * as model from '../domain/model'
 import { Node } from './Node'
-import { Layout } from './layout/layoutModel'
+import { NodeViewProps } from './NodeViewProps'
 
-export interface NodesProps {
+export interface NodesProps extends NodeViewProps {
   nodes: model.Node[]
-  graphLayout: Layout
-  onClick?: (node: model.Node) => void
 }
 
-export const Nodes = (props: NodesProps) => (
+// props with destructuring
+export const Nodes = ({ nodes, ...otherProps }: NodesProps) => (
   <div>
     {
-      props.nodes.map(node => (
+      nodes.map(node => (
         <Node
           key={node.id}
           node={node}
-          graphLayout={props.graphLayout}
-          onClick={props.onClick}
+          {...otherProps}
         />
       ))
     }
