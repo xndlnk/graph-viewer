@@ -1,0 +1,4 @@
+- allow to switch layouting
+- recreate project with create-react-app for typescript
+- add viz.js as layouter (should work with webpack)
+- display nodes with svg and add D3 for zooming
