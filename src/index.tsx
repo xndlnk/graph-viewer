@@ -11,6 +11,7 @@ import { simpleGraph } from './example-graphs/simpleGraph'
 import { largeGraph } from './example-graphs/largeGraph'
 import { GraphProviderWithFallback } from './graphProvider/graphProvider'
 import { GraphFetcher } from './graphProvider/GraphFetcher'
+import { GraphContainer } from './view/GraphContainer'
 
 const graphProvider = new GraphProviderWithFallback({}, new GraphFetcher(process.env.SYSTEM_PROVIDER_URL))
 
@@ -33,10 +34,10 @@ const App = () => {
 
         <div className="pa3">
           <Route exact path="/graph/simple"
-            render={() => <Graph initialGraph={simpleGraph} />}
+            render={() => <GraphContainer initialGraph={simpleGraph} />}
           />
           <Route exact path="/graph/large"
-            render={() => <Graph initialGraph={largeGraph} />}
+            render={() => <GraphContainer initialGraph={largeGraph} />}
           />
         </div>
       </div>
