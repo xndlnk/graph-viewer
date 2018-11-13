@@ -1,19 +1,20 @@
 import * as React from 'react'
-import { render } from 'react-dom'
 import { Node } from './Node'
 import { Edge } from './Edge'
 import * as model from '../domain/model'
 import { Layout } from './layout/layoutModel'
-import { withRouter } from 'react-router'
 import { DagreLayout } from './layout/DagreLayout'
 import { KlayLayout } from './layout/KlayLayout'
-import { GraphProvider } from '../graphProvider/graphProvider'
+
+import { GraphService } from '../domain/service'
+import { NodeFocusser } from '../domain/NodeFocusser'
 
 export interface GraphProps {
-  graph: model.Node
+  initialGraph: model.Node
 }
 
 export interface GraphState {
+  graph: model.Node,
   graphLayout: Layout
 }
 
@@ -21,25 +22,37 @@ export class Graph extends React.Component<GraphProps, GraphState> {
   constructor(props: GraphProps) {
     super(props)
     this.state = {
+      graph: props.initialGraph,
       graphLayout: null
     }
   }
 
-  async componentDidMount() {
+  focusGraphToNode = (focusedNode: model.Node) => {
+    const graphService = new GraphService(this.props.initialGraph)
+
+    const nodeFocussor = new NodeFocusser(graphService)
+    const focusedGraph = nodeFocussor.focusNode(focusedNode)
+
+    this.setState({
+      graph: focusedGraph
+    })
+  }
+
+  async computeLayout() {
     // INFO: this is not needed, just playing
     await new Promise(function(resolve) {
       setTimeout(resolve, 50)
     })
 
-    const layout = new KlayLayout(this.props.graph)
+    const layout = new KlayLayout(this.state.graph)
     const graphLayout = await layout.computeLayout()
     this.setState({ graphLayout: graphLayout })
   }
 
-  componentWillUnmount() {
-    this.setState({
-      graphLayout: null
-    })
+  async componentDidMount() {
+    if (!this.state.graphLayout) {
+      this.computeLayout()
+    }
   }
 
   render() {
@@ -63,17 +76,18 @@ export class Graph extends React.Component<GraphProps, GraphState> {
         }}
       >
         {
-          this.props.graph.getNodes().map(node => (
-              <Node
-                node={node}
-                graphLayout={layout}
-              />
-            )
+          this.state.graph.getNodes().map(node => (
+            <Node
+              node={node}
+              graphLayout={layout}
+              onClick={this.focusGraphToNode}
+            />
+          )
           )
         }
         <svg width={layout.getGraphWith() + 10} height={layout.getGraphHeight() + 10}>
           {
-            this.props.graph.getAllEdges().map(edge => (
+            this.state.graph.getAllEdges().map(edge => (
               <Edge edge={edge} arrangedEdge={layout.getEdgeLayout(edge.sourceId, edge.targetId)} />
             ))
           }

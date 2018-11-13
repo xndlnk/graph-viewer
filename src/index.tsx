@@ -29,35 +29,19 @@ const App = () => {
       <div className="sans-serif">
         <div className="bg-black white pa3">
           <ul className="list f3">
-            <li><b>Simple:</b> <Link className={darkLinkStyling} to="/graph/simple">Complete</Link>, <Link className={darkLinkStyling} to="/graph/simple/collapsed">Collapsed</Link></li>
-            <li><b>Large:</b> <Link className={darkLinkStyling} to="/graph/large">Complete</Link>, <Link className={darkLinkStyling} to="/graph/large/collapsed">Collapsed</Link></li>
-            <li><b>External:</b> <Link className={darkLinkStyling} to="/graph/external">Complete</Link>, <Link className={darkLinkStyling} to="/graph/external/collapsed">Collapsed</Link></li>
+            <li><b>Simple:</b> <Link className={darkLinkStyling} to="/graph/simple">Complete</Link></li>
+            <li><b>Large:</b> <Link className={darkLinkStyling} to="/graph/large">Complete</Link></li>
+            <li><b>External:</b> <Link className={darkLinkStyling} to="/graph/external">Complete</Link></li>
           </ul>
         </div>
 
         <div className="pa3">
           <Route exact path="/graph/simple" render={
-            (props) => <Graph graph={simpleGraph} />
-          } />
-          <Route path="/graph/simple/collapsed" render={
-            (props) => <CollapsedNode node={simpleGraph} />
-          } />
-          <Route path="/graph/simple/focus/:nodeId" render={
-            (props) => <FocusedNode graph={simpleGraph} focusedNodeId={props.match.params.nodeId} />
+            (props) => <Graph initialGraph={simpleGraph} />
           } />
 
           <Route exact path="/graph/large" render={
-            (props) => <Graph graph={largeGraph} />
-          } />
-          <Route path="/graph/large/collapsed" render={
-            (props) => <CollapsedNode node={largeGraph} />
-          } />
-          <Route path="/graph/large/focus/:nodeId" render={
-            (props) => <FocusedNode graph={largeGraph} focusedNodeId={props.match.params.nodeId} />
-          } />
-
-          <Route exact path="/graph/external" render={
-            (props) => <GraphLoader graphProvider={graphProvider} />
+            (props) => <Graph initialGraph={largeGraph} />
           } />
         </div>
       </div>
