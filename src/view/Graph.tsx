@@ -7,6 +7,7 @@ import { Layout } from './layout/layoutModel'
 import { withRouter } from 'react-router'
 import { DagreLayout } from './layout/DagreLayout'
 import { KlayLayout } from './layout/KlayLayout'
+import { GraphProvider } from '../graphProvider/graphProvider'
 
 export interface GraphProps {
   graph: model.Node
@@ -30,14 +31,15 @@ export class Graph extends React.Component<GraphProps, GraphState> {
       setTimeout(resolve, 50)
     })
 
-    // console.log('layouting graph ' + JSON.stringify(this.props.graph,null, 2))
     const layout = new KlayLayout(this.props.graph)
     const graphLayout = await layout.computeLayout()
     this.setState({ graphLayout: graphLayout })
   }
 
   componentWillUnmount() {
-    this.setState({ graphLayout: null })
+    this.setState({
+      graphLayout: null
+    })
   }
 
   render() {
