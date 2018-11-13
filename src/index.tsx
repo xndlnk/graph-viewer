@@ -28,7 +28,6 @@ const App = () => {
           <ul className="list f3">
             <li><b>Simple:</b> <Link className={darkLinkStyling} to="/graph/simple">Complete</Link></li>
             <li><b>Large:</b> <Link className={darkLinkStyling} to="/graph/large">Complete</Link></li>
-            <li><b>External:</b> <Link className={darkLinkStyling} to="/graph/external">Complete</Link></li>
           </ul>
         </div>
 
