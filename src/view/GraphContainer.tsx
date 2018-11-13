@@ -74,8 +74,11 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
 
     return (
       <div>
-        <Graph graph={this.state.graph} graphLayout={graphLayout}
-          onClick={this.focusGraphToNode}></Graph>
+        <Graph
+          graph={this.state.graph}
+          graphLayout={graphLayout}
+          onClick={this.focusGraphToNode}
+        ></Graph>
       </div>
     )
   }

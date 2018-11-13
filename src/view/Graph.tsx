@@ -9,9 +9,7 @@ export interface GraphProps extends NodeViewProps {
   graph: model.Node
 }
 
-export const Graph = (props: GraphProps) => {
-  const { graph, graphLayout, onClick } = props
-
+export const Graph = ({ graph, graphLayout, ...otherProps }: GraphProps) => {
   // INFO: svg edges have to be included all at once here.
   // using higher z-index for svg is not working because div-elements are not accessible anymore.
   return (
@@ -22,8 +20,11 @@ export const Graph = (props: GraphProps) => {
         position: 'relative'
       }}
     >
-      <Nodes nodes={graph.getNodes()} graphLayout={graphLayout}
-        onClick={onClick}></Nodes>
+      <Nodes
+        nodes={graph.getNodes()}
+        graphLayout={graphLayout}
+        {...otherProps}
+      ></Nodes>
 
       <svg width={graphLayout.getGraphWith() + 10}
         height={graphLayout.getGraphHeight() + 10}>
