@@ -36,7 +36,6 @@ export class Node extends React.Component<NodeProps, any> {
     return (
       <div
         className="ba f4"
-        key={node.id}
         style={{
           position: 'absolute',
           left: x,

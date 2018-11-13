@@ -1,12 +1,11 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
+import styled from 'styled-components'
+
 import './tachyons.css'
 import './index.css'
-import { SimpleGraph } from './view/SimpleGraph'
 import { Graph } from './view/Graph'
-import { GraphLoader } from './view/GraphLoader'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import styled from 'styled-components'
 
 import { simpleGraph } from './example-graphs/simpleGraph'
 import { largeGraph } from './example-graphs/largeGraph'
@@ -15,7 +14,7 @@ import { GraphFetcher } from './graphProvider/GraphFetcher'
 
 const graphProvider = new GraphProviderWithFallback({}, new GraphFetcher(process.env.SYSTEM_PROVIDER_URL))
 
-const SomeStyle = styled.div.attrs({
+const StyledLink = styled.div.attrs({
   className: 'link underline dim yellow'
 })``
 
@@ -34,13 +33,12 @@ const App = () => {
         </div>
 
         <div className="pa3">
-          <Route exact path="/graph/simple" render={
-            (props) => <Graph initialGraph={simpleGraph} />
-          } />
-
-          <Route exact path="/graph/large" render={
-            (props) => <Graph initialGraph={largeGraph} />
-          } />
+          <Route exact path="/graph/simple"
+            render={() => <Graph initialGraph={simpleGraph} />}
+          />
+          <Route exact path="/graph/large"
+            render={() => <Graph initialGraph={largeGraph} />}
+          />
         </div>
       </div>
     </Router>
