@@ -1,10 +1,6 @@
 import * as React from 'react'
-import { render } from 'react-dom'
-import { Route, Link, match, RouteComponentProps } from 'react-router-dom'
-import { withRouter } from 'react-router'
+
 import * as model from '../domain/model'
-import { NodeLayout, Layout } from './layout/layoutModel'
-import styled, { css } from 'styled-components'
 import { Nodes } from './Nodes'
 import { NodeViewProps } from './NodeViewProps'
 

@@ -1,5 +1,6 @@
-- allow to reset graph to inital
+- allow to reset graph to initial
 - allow to switch layouting algorithm
 - recreate project with create-react-app for typescript
-- add viz.js as layouter (should work with webpack)
+- use material-ui
+- add viz.js as layouter (should work with webpack, if not eject)
 - display nodes with svg and add D3 for zooming
