@@ -1,5 +1,10 @@
-export interface Layout {
-  computeLayout(): Promise<Layout>
+import * as model from '../../domain/model'
+
+export interface Layouter {
+  computeLayout(graph: model.Node): Promise<GraphLayout>
+}
+
+export interface GraphLayout {
   getGraphWith(): number
   getGraphHeight(): number
   getNodeLayout(id: string): NodeLayout
@@ -14,5 +19,5 @@ export interface NodeLayout {
 }
 
 export interface EdgeLayout {
-  points: Array<{x: number, y: number}>
+  points: Array<{ x: number, y: number }>
 }

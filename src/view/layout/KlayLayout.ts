@@ -1,25 +1,27 @@
 import * as model from '../../domain/model'
-import { Layout, NodeLayout, EdgeLayout } from './layoutModel'
+import { Layouter, GraphLayout, NodeLayout, EdgeLayout } from './layoutModel'
 const klay = require('klayjs')
 
-export class KlayLayout implements Layout {
-  private graphWithLayout: KlayNode
+export class KlayLayouter implements Layouter {
 
-  constructor(private graph: model.Node) {
-  }
+  async computeLayout(graph: model.Node): Promise<GraphLayout> {
+    const klayGraph = new KlayModelAdapter().convertGraph(graph)
 
-  async computeLayout(): Promise<Layout> {
-    const klayGraph = new KlayModelAdapter().convertGraph(this.graph)
-
-    return new Promise<Layout>(resolve => {
+    return new Promise<GraphLayout>(resolve => {
       klay.layout({
         graph: klayGraph,
         success: (graphWithLayout: KlayNode) => {
-          this.graphWithLayout = graphWithLayout
-          resolve(this)
+          const klayLayout = new KlayLayout(graph, graphWithLayout)
+          resolve(klayLayout)
         }
       })
     })
+  }
+}
+
+class KlayLayout implements GraphLayout {
+
+  constructor(private graph: model.Node, private graphWithLayout: KlayNode) {
   }
 
   getGraphWith(): number {
@@ -65,7 +67,7 @@ export class KlayLayout implements Layout {
       }
     }
 
-    const points: Array<{x: number, y: number}> = []
+    const points: Array<{ x: number, y: number }> = []
     points.push(edge.sourcePoint)
     if (edge.bendPoints) {
       edge.bendPoints.forEach(p => points.push(p))
@@ -108,7 +110,7 @@ export class KlayLayout implements Layout {
       .find(parentNode => parentNode !== undefined)
   }
 
-  getPointsAdjustedRelativeToParentNode(points: Array<{x: number, y: number}>, parentNodeId: string): Array<{x: number, y: number}> {
+  getPointsAdjustedRelativeToParentNode(points: Array<{ x: number, y: number }>, parentNodeId: string): Array<{ x: number, y: number }> {
     const parentNodeLayout = this.getNodeLayout(parentNodeId)
     return points.map(point => {
       return { x: parentNodeLayout.x + point.x, y: parentNodeLayout.y + point.y }
@@ -188,7 +190,7 @@ interface KlayEdge {
   id: string,
   source: string,
   target: string,
-  sourcePoint: {x: number, y: number}
-  targetPoint: {x: number, y: number}
-  bendPoints: Array<{x: number, y: number}>
+  sourcePoint: { x: number, y: number }
+  targetPoint: { x: number, y: number }
+  bendPoints: Array<{ x: number, y: number }>
 }

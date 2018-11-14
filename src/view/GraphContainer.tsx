@@ -2,9 +2,9 @@ import * as React from 'react'
 import { Graph } from './Graph'
 
 import * as model from '../domain/model'
-import { Layout } from './layout/layoutModel'
-import { DagreLayout } from './layout/DagreLayout'
-import { KlayLayout } from './layout/KlayLayout'
+import { Layouter, GraphLayout } from './layout/layoutModel'
+import { KlayLayouter } from './layout/KlayLayout'
+import { DagreLayouter } from './layout/DagreLayout'
 
 import { GraphService } from '../domain/service'
 import { NodeFocusser } from '../domain/NodeFocusser'
@@ -14,8 +14,9 @@ export interface GraphProps {
 }
 
 export interface GraphState {
-  graph: model.Node,
-  graphLayout: Layout
+  graph: model.Node
+  graphLayout: GraphLayout
+  layouter: Layouter
 }
 
 export class GraphContainer extends React.Component<GraphProps, GraphState> {
@@ -25,7 +26,8 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
     super(props)
     this.state = {
       graph: props.initialGraph,
-      graphLayout: null
+      graphLayout: null,
+      layouter: new KlayLayouter()
     }
   }
 
@@ -44,8 +46,7 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
       setTimeout(resolve, 50)
     })
 
-    const layout = new KlayLayout(graph)
-    const graphLayout = await layout.computeLayout()
+    const graphLayout = await this.state.layouter.computeLayout(graph)
 
     if (this.stillMounted) {
       this.setState({
@@ -77,6 +78,8 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
     return (
       <div>
         <Link text="Reset" onClickHandler={this.restToInitialGraph} />
+        <Link text="Klay" onClickHandler={() => this.switchLayouter(new KlayLayouter())} />
+        <Link text="Dagre" onClickHandler={() => this.switchLayouter(new DagreLayouter())} />
         <Graph
           graph={this.state.graph}
           graphLayout={graphLayout}
@@ -88,6 +91,13 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
 
   restToInitialGraph = () => {
     this.computeLayout(this.props.initialGraph)
+  }
+
+  switchLayouter = (newLayouter: Layouter) => {
+    this.setState({
+      layouter: newLayouter
+    })
+    this.computeLayout(this.state.graph)
   }
 }
 
