@@ -23,9 +23,10 @@ export class Node extends React.Component<NodeProps, any> {
 
     let content: any = node.name
     if (onClick) {
-      content = <div onClick={this.onClickHandler} style={{ cursor: 'pointer' }} className="link underline dim blue">
+      content = (<div onClick={this.onClickHandler}
+        style={{ cursor: 'pointer' }} className="link underline dim blue">
         {node.name}
-      </div>
+      </div>)
     }
 
     return (

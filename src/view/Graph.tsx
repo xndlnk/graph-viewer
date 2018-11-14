@@ -24,10 +24,9 @@ export const Graph = ({ graph, graphLayout, ...otherProps }: GraphProps) => {
         nodes={graph.getNodes()}
         graphLayout={graphLayout}
         {...otherProps}
-      ></Nodes>
+      />
 
-      <svg width={graphLayout.getGraphWith() + 10}
-        height={graphLayout.getGraphHeight() + 10}>
+      <svg width={graphLayout.getGraphWith() + 10} height={graphLayout.getGraphHeight() + 10}>
         {
           graph.getAllEdges().map(edge => (
             <Edge key={edge.sourceId + '-' + edge.targetId} edge={edge}

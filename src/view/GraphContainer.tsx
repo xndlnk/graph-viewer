@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Graph } from './Graph'
+
 import * as model from '../domain/model'
 import { Layout } from './layout/layoutModel'
 import { DagreLayout } from './layout/DagreLayout'
@@ -74,12 +75,20 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
 
     return (
       <div>
+        <div className="link underline dim yellow"
+          style={{ cursor: 'pointer' }} onClick={this.restToInitialGraph}>Reset</div>
         <Graph
           graph={this.state.graph}
           graphLayout={graphLayout}
           onClick={this.focusGraphToNode}
-        ></Graph>
+        />
       </div>
     )
+  }
+
+  restToInitialGraph = () => {
+    this.setState({
+      graph: this.props.initialGraph
+    })
   }
 }
