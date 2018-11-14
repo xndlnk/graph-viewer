@@ -2,7 +2,7 @@
 
 ![graph-viewer](logo-small.png)
 
-This is a playground for implementing a tool to interact with graphs.
+This is a playground for graph interaction and layouting on the web.
 
 - base technologies: React, Parcel, and TypeScript
 - layouting libraries: [Dagre](https://github.com/dagrejs/dagre), and [Klayjs](https://github.com/OpenKieler/klayjs)
