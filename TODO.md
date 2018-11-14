@@ -1,4 +1,3 @@
-- allow to reset graph to initial
 - allow to switch layouting algorithm
 - use material-ui
 - switch to webpack

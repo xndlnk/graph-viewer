@@ -35,29 +35,30 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
     const nodeFocussor = new NodeFocusser(graphService)
     const focusedGraph = nodeFocussor.focusNode(focusedNode)
 
-    this.setState({
-      graph: focusedGraph
-    })
+    this.computeLayout(focusedGraph)
   }
 
-  async computeLayout() {
+  async computeLayout(graph: model.Node) {
     // INFO: this is not needed, just playing
     await new Promise(function(resolve) {
       setTimeout(resolve, 50)
     })
 
-    const layout = new KlayLayout(this.state.graph)
+    const layout = new KlayLayout(graph)
     const graphLayout = await layout.computeLayout()
 
     if (this.stillMounted) {
-      this.setState({ graphLayout: graphLayout })
+      this.setState({
+        graph,
+        graphLayout
+      })
     }
   }
 
   async componentDidMount() {
     this.stillMounted = true
     if (!this.state.graphLayout) {
-      this.computeLayout()
+      this.computeLayout(this.state.graph)
     }
   }
 
@@ -75,7 +76,7 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
 
     return (
       <div>
-        <div className="link underline dim yellow"
+        <div className="link underline dim blue"
           style={{ cursor: 'pointer' }} onClick={this.restToInitialGraph}>Reset</div>
         <Graph
           graph={this.state.graph}
@@ -87,8 +88,6 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
   }
 
   restToInitialGraph = () => {
-    this.setState({
-      graph: this.props.initialGraph
-    })
+    this.computeLayout(this.props.initialGraph)
   }
 }
