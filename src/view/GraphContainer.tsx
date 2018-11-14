@@ -76,8 +76,7 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
 
     return (
       <div>
-        <div className="link underline dim blue"
-          style={{ cursor: 'pointer' }} onClick={this.restToInitialGraph}>Reset</div>
+        <Link text="Reset" onClickHandler={this.restToInitialGraph} />
         <Graph
           graph={this.state.graph}
           graphLayout={graphLayout}
@@ -90,4 +89,14 @@ export class GraphContainer extends React.Component<GraphProps, GraphState> {
   restToInitialGraph = () => {
     this.computeLayout(this.props.initialGraph)
   }
+}
+
+interface LinkProps {
+  text: string
+  onClickHandler: () => void
+}
+
+const Link = (props: LinkProps) => {
+  return <div className="link underline dim blue"
+    style={{ cursor: 'pointer' }} onClick={props.onClickHandler}>{props.text}</div>
 }
